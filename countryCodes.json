@@ -1,0 +1,1099 @@
+{
+	"countryCodes": [
+		{
+			"code": "AFG",
+			"name": "Afghanistan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ALB",
+			"name": "Albania",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ALG",
+			"name": "Algeria",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ASA",
+			"name": "American Samoa",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "AND",
+			"name": "Andorra",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ANG",
+			"name": "Angola",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "AIA",
+			"name": "Anguilla",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ANT",
+			"name": "Antigua & Barbuda",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ARG",
+			"name": "Argentina",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ARM",
+			"name": "Armenia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ARU",
+			"name": "Aruba",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ART",
+			"name": "Athlete Refugee Team",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "AUS",
+			"name": "Australia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "AUT",
+			"name": "Austria",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ANA",
+			"name": "Authorised Neutral Athlete",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "AZE",
+			"name": "Azerbaijan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BAH",
+			"name": "Bahamas",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BRN",
+			"name": "Bahrain",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BAN",
+			"name": "Bangladesh",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BAR",
+			"name": "Barbados",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BLR",
+			"name": "Belarus",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BEL",
+			"name": "Belgium",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BIZ",
+			"name": "Belize",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BEN",
+			"name": "Benin",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BER",
+			"name": "Bermuda",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BHU",
+			"name": "Bhutan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BOL",
+			"name": "Bolivia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BIH",
+			"name": "Bosnia-Herzegovina",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BOT",
+			"name": "Botswana",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BRA",
+			"name": "Brazil",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "IVB",
+			"name": "British Virgin Islands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BRU",
+			"name": "Brunei",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BUL",
+			"name": "Bulgaria",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BUR",
+			"name": "Burkina Faso",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "BDI",
+			"name": "Burundi",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CPV",
+			"name": "Cabo Verde",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CAM",
+			"name": "Cambodia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CMR",
+			"name": "Cameroon",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CAN",
+			"name": "Canada",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CAY",
+			"name": "Cayman Islands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CAF",
+			"name": "Central African Republic",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CHA",
+			"name": "Chad",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CHI",
+			"name": "Chile",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TPE",
+			"name": "Chinese Taipei",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "COL",
+			"name": "Colombia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DMA",
+			"name": "Commonwealth Of Dominica",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "COM",
+			"name": "Comoros",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CGO",
+			"name": "Congo",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "COK",
+			"name": "Cook Islands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CRC",
+			"name": "Costa Rica",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CIV",
+			"name": "Cote D'ivoire",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CRO",
+			"name": "Croatia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CUB",
+			"name": "Cuba",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CYP",
+			"name": "Cyprus",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CZE",
+			"name": "Czech Republic",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "COD",
+			"name": "Democ. Republic Of Congo",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "STP",
+			"name": "Dem. Rep. Of Sao Tome And Principe",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DEN",
+			"name": "Denmark",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DJI",
+			"name": "Djibouti",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DOM",
+			"name": "Dominican Republic",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PRK",
+			"name": "Dpr Of Korea",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ECU",
+			"name": "Ecuador",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "EGY",
+			"name": "Egypt",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ESA",
+			"name": "El Salvador",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GEQ",
+			"name": "Equatorial Guinea",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ERI",
+			"name": "Eritrea",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "EST",
+			"name": "Estonia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SWZ",
+			"name": "Eswatini",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ETH",
+			"name": "Ethiopia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "FIJ",
+			"name": "Fiji",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "FIN",
+			"name": "Finland",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "FRA",
+			"name": "France",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PYF",
+			"name": "French Polynesia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GAB",
+			"name": "Gabon",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GEO",
+			"name": "Georgia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GER",
+			"name": "Germany",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GHA",
+			"name": "Ghana",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GIB",
+			"name": "Gibraltar",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GBR",
+			"name": "Great Britain & N.I.",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GRE",
+			"name": "Greece",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GRN",
+			"name": "Grenada",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GUM",
+			"name": "Guam",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GUA",
+			"name": "Guatemala",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GUI",
+			"name": "Guinea",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GBS",
+			"name": "Guinea-Bissau",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GUY",
+			"name": "Guyana",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HAI",
+			"name": "Haiti",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HON",
+			"name": "Honduras",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HKG",
+			"name": "Hong Kong, China",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HUN",
+			"name": "Hungary",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ISL",
+			"name": "Iceland",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "IND",
+			"name": "India",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "INA",
+			"name": "Indonesia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "INT",
+			"name": "International",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "IRQ",
+			"name": "Iraq",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "IRL",
+			"name": "Ireland",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "IRI",
+			"name": "Islamic Republic Of Iran",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ISR",
+			"name": "Israel",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ITA",
+			"name": "Italy",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "JAM",
+			"name": "Jamaica",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "JPN",
+			"name": "Japan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "JOR",
+			"name": "Jordan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "KAZ",
+			"name": "Kazakhstan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "KEN",
+			"name": "Kenya",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "KGZ",
+			"name": "Kirghizistan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "KIR",
+			"name": "Kiribati Rep Of",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "KOR",
+			"name": "Korea",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "KOS",
+			"name": "Kosovo",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "KUW",
+			"name": "Kuwait",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LAO",
+			"name": "Laos",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LAT",
+			"name": "Latvia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LBN",
+			"name": "Lebanon",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LES",
+			"name": "Lesotho",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LBR",
+			"name": "Liberia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LBA",
+			"name": "Libya",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LIE",
+			"name": "Liechtenstein",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LTU",
+			"name": "Lithuania",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LUX",
+			"name": "Luxembourg",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MAC",
+			"name": "Macao",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MAD",
+			"name": "Madagascar",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MAW",
+			"name": "Malawi",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MAS",
+			"name": "Malaysia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MDV",
+			"name": "Maldives",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MLI",
+			"name": "Mali",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MLT",
+			"name": "Malta",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MHL",
+			"name": "Marshall Islands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MTN",
+			"name": "Mauritania",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MRI",
+			"name": "Mauritius",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MEX",
+			"name": "Mexico",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "FSM",
+			"name": "Micronesia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MDA",
+			"name": "Moldova",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MON",
+			"name": "Monaco",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MGL",
+			"name": "Mongolia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MNE",
+			"name": "Montenegro",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MNT",
+			"name": "Montserrat",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MAR",
+			"name": "Morocco",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MOZ",
+			"name": "Mozambique",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MYA",
+			"name": "Myanmar",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NAM",
+			"name": "Namibia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NEP",
+			"name": "Nepal",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NED",
+			"name": "Netherlands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NZL",
+			"name": "New Zealand",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NCA",
+			"name": "Nicaragua",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NIG",
+			"name": "Niger",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NGR",
+			"name": "Nigeria",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NFI",
+			"name": "Norfolk Island",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NMI",
+			"name": "Northern Mariana Islands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MKD",
+			"name": "North Macedonia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NOR",
+			"name": "Norway",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "OMA",
+			"name": "Oman",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PAK",
+			"name": "Pakistan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PLE",
+			"name": "Palestine",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PAN",
+			"name": "Panama",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PNG",
+			"name": "Papua New Guinea",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PAR",
+			"name": "Paraguay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PER",
+			"name": "Peru",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PHI",
+			"name": "Philippines",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "POL",
+			"name": "Poland",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "POR",
+			"name": "Portugal",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "CHN",
+			"name": "Pr Of China",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PUR",
+			"name": "Puerto Rico",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "QAT",
+			"name": "Qatar",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ROT",
+			"name": "Refugee Olympic Team",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "NRU",
+			"name": "Rep Of Nauru - Pacific",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PLW",
+			"name": "Rep Of Palau - Pacific",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "YEM",
+			"name": "Republic Of Yemen",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ROU",
+			"name": "Romania",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "RUS",
+			"name": "Russia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "RWA",
+			"name": "Rwanda",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SKN",
+			"name": "Saint Kitts And Nevis",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LCA",
+			"name": "Saint Lucia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "VIN",
+			"name": "Saint Vincent",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SAM",
+			"name": "Samoa",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SMR",
+			"name": "San Marino",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "KSA",
+			"name": "Saudi Arabia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SEN",
+			"name": "Senegal",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SRB",
+			"name": "Serbia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SEY",
+			"name": "Seychelles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SLE",
+			"name": "Sierra Leone",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SGP",
+			"name": "Singapore",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SVK",
+			"name": "Slovak Republic",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SLO",
+			"name": "Slovenia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SOL",
+			"name": "Solomon Islands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SOM",
+			"name": "Somalia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "RSA",
+			"name": "South Africa",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SSD",
+			"name": "South Sudan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ESP",
+			"name": "Spain",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SRI",
+			"name": "Sri Lanka",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SUD",
+			"name": "Sudan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SUR",
+			"name": "Surinam",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SWE",
+			"name": "Sweden",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SUI",
+			"name": "Switzerland",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SYR",
+			"name": "Syria",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TJK",
+			"name": "Tajikistan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TAN",
+			"name": "Tanzania",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "THA",
+			"name": "Thailand",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "GAM",
+			"name": "The Gambia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TLS",
+			"name": "Timor Leste",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TOG",
+			"name": "Togo",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TGA",
+			"name": "Tonga",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TTO",
+			"name": "Trinidad And Tobago",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TUN",
+			"name": "Tunisia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TUR",
+			"name": "Türkiye",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TKM",
+			"name": "Turkmenistan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TKS",
+			"name": "Turks And Caicos Islands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TUV",
+			"name": "Tuvalu",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "UGA",
+			"name": "Uganda",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "UKR",
+			"name": "Ukraine",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "UND",
+			"name": "Undefined",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "UAE",
+			"name": "United Arab Emirates",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "USA",
+			"name": "United States",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "URU",
+			"name": "Uruguay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "UZB",
+			"name": "Uzbekistan",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "VAN",
+			"name": "Vanuatu",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "VEN",
+			"name": "Venezuela",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "VIE",
+			"name": "Vietnam",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ISV",
+			"name": "Virgin Islands",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ZAM",
+			"name": "Zambia",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "ZIM",
+			"name": "Zimbabwe",
+			"__typename": "MetaData"
+		}
+	]
+}

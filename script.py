@@ -1,9 +1,9 @@
 import pandas as pd
 import requests as re
-from requests.auth import HTTPBasicAuth
 import os
 import urllib.parse
 import json
+import sys
 
 
 class API:
@@ -119,7 +119,10 @@ def getCompetitorResultsByDiscipline(AthleteID=None, resultsByYearOrderBy=None, 
     }
 
     json_data = API(queryBody, queryVariables).fetch_data()
-    resultsByEvent = json_data['data']['getSingleCompetitorResultsDiscipline']['resultsByEvent']
+    if json_data['data']['getSingleCompetitorResultsDiscipline'] != None:
+        resultsByEvent = json_data['data']['getSingleCompetitorResultsDiscipline']['resultsByEvent']
+    else:
+        return "Not Found"
     df = pd.DataFrame()
     for discipline in range(len(resultsByEvent)):
         df_results = pd.DataFrame.from_dict(resultsByEvent[discipline]['results'])
@@ -128,17 +131,60 @@ def getCompetitorResultsByDiscipline(AthleteID=None, resultsByYearOrderBy=None, 
     return df
 
 
-def getSingaporeAthletes():
+def getCountryAthletesResults(countryCode="SGP", resultsYear=None):
+    if countryCode == "NOT FOUND" or len(countryCode) != 3:
+        return pd.DataFrame(["countryCode " + countryCode], )
+    if resultsYear == None:
+        resultsYear = 2023
     df = pd.DataFrame()
-    df_Athletes = searchCompetitor(countryCode="SGP")
-    for athleteID in df_Athletes['aaAthleteId']:
-        print(athleteID)
+    df_Athletes = searchCompetitor(countryCode=countryCode)
+    athletesCount = len(df_Athletes)
+    print("API fetched", athletesCount, "athletes for", countryCode)
+    athleteActiveInYearCount = 0
+    for i, athleteID in df_Athletes['aaAthleteId'].items():
+        try:
+            df_result = getCompetitorResultsByDiscipline(AthleteID=athleteID, resultsByYear=resultsYear)
+            df_result['athlete_name'] = df_Athletes['givenName'][i]
+            df_result['athlete_id'] = athleteID
+            df = pd.concat([df, df_result])
+            athleteActiveInYearCount += 1
+        except:
+            print(" ".join(["Results for", df_Athletes['givenName'][i], "(" + athleteID + "):", df_result]))
+        progressBar(i, athletesCount - 1)
+    print("Total active athletes with results in", resultsYear, "is :", athleteActiveInYearCount, "/", athletesCount)
+    return df
+
+
+def getCountryCode(countryName=""):
+    f = open('countryCodes.json')
+    data = json.load(f)
+    for i in range(len(data['countryCodes'])):
+        if data['countryCodes'][i]['name'].lower() == countryName.lower():
+            return data['countryCodes'][i]['code']
+    return "NOT FOUND"
+
+
+def getDisciplineCode(disciplineName=""):
+    f = open('disciplineCodes.json')
+    data = json.load(f)
+    for i in range(len(data['disciplineCodes'])):
+        if data['disciplineCodes'][i]['name'].lower().strip() == disciplineName.lower().strip():
+            return data['disciplineCodes'][i]['code']
+    return "NOT FOUND"
+
+
+def progressBar(count_value, total, suffix=''):
+    bar_length = 100
+    filled_up_Length = int(round(bar_length * count_value / float(total)))
+    percentage = round(100.0 * count_value/float(total), 1)
+    bar = '=' * filled_up_Length + '-' * (bar_length - filled_up_Length)
+    sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percentage, '%', suffix))
+    sys.stdout.flush()
 
 
 def main():
-    getSingaporeAthletes()
-    # df = getCompetitorResultsByDiscipline(AthleteID=14472153, resultsByYear=2022)
-    # df.to_excel("test.xlsx", sheet_name="RAW", engine='openpyxl', index=False)
+    df = getCountryAthletesResults(countryCode=getCountryCode(countryName="askjdsand"))
+    df.to_excel("test.xlsx", sheet_name="RAW", engine='openpyxl', index=False)
 
 
 if __name__ == "__main__":

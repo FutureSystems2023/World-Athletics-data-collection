@@ -1,0 +1,749 @@
+{
+	"disciplineCodes": [
+		{
+			"code": "50",
+			"name": "50 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "55",
+			"name": "55 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "60",
+			"name": "60 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "100",
+			"name": "100 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "100y",
+			"name": "100 Yards",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "150",
+			"name": "150 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "200",
+			"name": "200 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "300",
+			"name": "300 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "400",
+			"name": "400 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "500",
+			"name": "500 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "600",
+			"name": "600 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "800",
+			"name": "800 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "1000",
+			"name": "1000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "1500",
+			"name": "1500 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MILE",
+			"name": "One Mile",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "2000",
+			"name": "2000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "3000",
+			"name": "3000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "2MLS",
+			"name": "Two Miles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "5000",
+			"name": "5000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "5RR",
+			"name": "5 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "8RR",
+			"name": "8 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "5MR",
+			"name": "5 Miles Road",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "10K",
+			"name": "10,000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "10RR",
+			"name": "10 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "12RR",
+			"name": "12 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "15K",
+			"name": "15,000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "15RR",
+			"name": "15 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "1MR",
+			"name": "One Mile Road",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "10MR",
+			"name": "10 Miles Road",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "20K",
+			"name": "20,000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "20RR",
+			"name": "20 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HOUR",
+			"name": "One Hour",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HMAR",
+			"name": "Half Marathon",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "25K",
+			"name": "25,000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "25RR",
+			"name": "25 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "30K",
+			"name": "30,000 Metres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "30RR",
+			"name": "30 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MAR",
+			"name": "Marathon",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "50RR",
+			"name": "50 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "100K",
+			"name": "100 Kilometres",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "24H",
+			"name": "24 Hours",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "2KSC",
+			"name": "2000 Metres Steeplechase",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "2KSC84",
+			"name": "2000 Metres Steeplechase (84)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "3KSC",
+			"name": "3000 Metres Steeplechase",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "50H",
+			"name": "50 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "55H",
+			"name": "55 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "60H",
+			"name": "60 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "60HY",
+			"name": "60m Hurdles (91.4cm)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "60HJ",
+			"name": "60m Hurdles (99.0cm)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "60HYG",
+			"name": "60m Hurdles (76.2cm)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "80H",
+			"name": "80 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "100H",
+			"name": "100 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "110HJ",
+			"name": "110m Hurdles (99.0cm)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "100HY",
+			"name": "100m Hurdles (76.2cm)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "110H",
+			"name": "110 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "110HY",
+			"name": "110m Hurdles (91.4cm)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "200H",
+			"name": "200 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "300HY",
+			"name": "300m Hurdles (84.0cm)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "300H",
+			"name": "300 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "400HY",
+			"name": "400m hurdles (84.0cm)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "400H",
+			"name": "400 Metres Hurdles",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HJ",
+			"name": "High Jump",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PV",
+			"name": "Pole Vault",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "LJ",
+			"name": "Long Jump",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "TJ",
+			"name": "Triple Jump",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SP",
+			"name": "Shot Put",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SPJ",
+			"name": "Shot Put (6kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SPY",
+			"name": "Shot Put (5kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SPYG",
+			"name": "Shot Put (3kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SPYG4",
+			"name": "Shot Put (4kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DT",
+			"name": "Discus Throw",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DTJ",
+			"name": "Discus Throw (1.750kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DTY",
+			"name": "Discus Throw (1.500kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HT",
+			"name": "Hammer Throw",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HTJ",
+			"name": "Hammer Throw (6kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HTY",
+			"name": "Hammer Throw (5kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HTYG",
+			"name": "Hammer Throw (3kg)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "JT",
+			"name": "Javelin Throw",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "JTo",
+			"name": "Javelin Throw (old)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "JTY",
+			"name": "Javelin Throw (700g)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "JTYG",
+			"name": "Javelin Throw (500g)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PEN",
+			"name": "Pentathlon",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "PENG",
+			"name": "Pentathlon Girls",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HEP",
+			"name": "Heptathlon",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HEPJ",
+			"name": "Heptathlon U20",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HEPY",
+			"name": "Heptathlon-100mH 76.2cm",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HEPG",
+			"name": "Heptathlon Girls",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "HEPB",
+			"name": "Heptathlon Boys",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "OCTY",
+			"name": "Octathlon Boys",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DEC",
+			"name": "Decathlon",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DEC6284",
+			"name": "Decathlon (62-84)",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DECJ",
+			"name": "Decathlon U20",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DECY",
+			"name": "Decathlon Boys",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MILEW",
+			"name": "One Mile Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "3KW",
+			"name": "3000 Metres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "5KW",
+			"name": "5000 Metres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "5KR",
+			"name": "5 Kilometres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "10KW",
+			"name": "10,000 Metres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "10KR",
+			"name": "10 Kilometres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "15KR",
+			"name": "15 Kilometers Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "20KW",
+			"name": "20,000 Metres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "20KR",
+			"name": "20 Kilometres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "2HW",
+			"name": "2 Hours Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "30KW",
+			"name": "30,000 Metres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "30KR",
+			"name": "30 Kilometres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "35KR",
+			"name": "35 Kilometres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "50KW",
+			"name": "50,000 Metres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "35KW",
+			"name": "35,000 Metres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "50KR",
+			"name": "50 Kilometres Race Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "4X1",
+			"name": "4x100 Metres Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "4X2",
+			"name": "4x200 Metres Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "4X4",
+			"name": "4x400 Metres Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "4X4",
+			"name": "4x400 Metres Relay Mixed",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "2X2X4",
+			"name": "Mixed 2x2x400m Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "SHUTHUR",
+			"name": "Shuttle Hurdles Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MIXSHH",
+			"name": "Mixed Shuttle Hurdles Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "4X8",
+			"name": "4x800 Metres Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "4X15",
+			"name": "4x1500 Metres Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MEAD",
+			"name": "Medley Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "8X1",
+			"name": "8x100 Metres Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "EKID",
+			"name": "Road Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "DISMEAD",
+			"name": "Distance Medley Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "MIXREL",
+			"name": "Mixed Relay",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "1HW",
+			"name": "One Hour Walk",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "XSE",
+			"name": "Senior Race",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "XC",
+			"name": "Cross Country",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "XJ",
+			"name": "U20 Race",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "XU23",
+			"name": "U23 Race",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "XCS",
+			"name": "Short Race",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "XS",
+			"name": "Long Race",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "W20",
+			"name": "20libs Weight",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "W35",
+			"name": "35libs Weight",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "XC4KM",
+			"name": "Cross Country 4000m",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "100B",
+			"name": "100m Blind",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "200B",
+			"name": "200m Blind",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "400B",
+			"name": "400m Blind",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "100W",
+			"name": "100m Wheelchair",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "200W",
+			"name": "200m Wheelchair",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "1500W",
+			"name": "1500m Wheelchair",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "800W",
+			"name": "800m Wheelchair",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "JTW",
+			"name": "Javelin Throw Wheelchair",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "200A",
+			"name": "200m Amputee",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "100A",
+			"name": "100m Amputee",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "400CP",
+			"name": "400m Cereb. Palsy",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "200VI",
+			"name": "200m Visually Impaired",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "400T53",
+			"name": "400 Metres T53",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "800T54",
+			"name": "800 Metres T54",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "400MA",
+			"name": "400m Masters",
+			"__typename": "MetaData"
+		},
+		{
+			"code": "800MA",
+			"name": "800m Masters",
+			"__typename": "MetaData"
+		}
+	]
+}
