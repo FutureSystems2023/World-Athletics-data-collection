@@ -5,25 +5,28 @@ import os
 import urllib.parse
 import json
 
+
 class API:
-    
-    apiEndPoint = "https://jpvxtz2frzayfix6m7whizuccm.appsync-api.eu-west-1.amazonaws.com/graphql"
-    apiKey = "da2-ii5irlhy7fd57aptsgby37bt3e"
+
+    f = open('api.json')
+    data = json.load(f)
+    apiEndPoint = data['apiEndPoint']
+    apiKey = data['apiKey']
     headers = {
         'Accept': '*/*',
         'Content-Type': 'application/json',
         'User-Agent': 'PostmanRuntime/7.29.2',
         'Accept-Encoding': 'gzip, deflate, br',
         'x-api-key': apiKey
-        }
-    
+    }
+
     def __init__(self, query, variables=None):
         self.query = query
         self.variables = variables
-        
+
     def __str__(self):
         return f"API Endpoint: {self.apiEndPoint}\nAPI Key: {self.apiKey}\nQuery:\n[{self.query}]\nVariables:\n[{self.variables}]"
-    
+
     def fetch_data(self):
         res = re.post(
             url=self.apiEndPoint,
@@ -31,17 +34,17 @@ class API:
             json={
                 "query": self.query,
                 "variables": self.variables
-                }
-            )
+            }
+        )
         if res.status_code == 200:
             return res.json()
         else:
             print("Failed calling API!")
             print(res.text)
             exit
-        
 
-def searchCompetitor(query = None, gender = None, disciplineCode = None, environment = None, countryCode = None):
+
+def searchCompetitor(query=None, gender=None, disciplineCode=None, environment=None, countryCode=None):
     queryBody = """
     query SearchCompetitors($query: String, $gender: GenderType, $disciplineCode: String, $environment: String, $countryCode: String) {
         searchCompetitors(query: $query, gender: $gender, disciplineCode: $disciplineCode, environment: $environment, countryCode: $countryCode) {
@@ -59,13 +62,13 @@ def searchCompetitor(query = None, gender = None, disciplineCode = None, environ
         }
     """
     queryVariables = {
-        "query":query,
-        "gender":gender,
-        "disciplineCode":disciplineCode,
-        "environment":environment,
-        "countryCode":countryCode,
+        "query": query,
+        "gender": gender,
+        "disciplineCode": disciplineCode,
+        "environment": environment,
+        "countryCode": countryCode,
     }
-    
+
     json_data = API(queryBody, queryVariables).fetch_data()
     df = pd.DataFrame.from_dict(json_data['data']['searchCompetitors'])
     return df
@@ -108,13 +111,13 @@ def getCompetitorResultsByDiscipline(AthleteID=None, resultsByYearOrderBy=None, 
         }
     }
     """
-    
+
     queryVariables = {
-        "id":AthleteID,
-        "resultsByYearOrderBy":resultsByYearOrderBy,
-        "resultsByYear":resultsByYear
+        "id": AthleteID,
+        "resultsByYearOrderBy": resultsByYearOrderBy,
+        "resultsByYear": resultsByYear
     }
-     
+
     json_data = API(queryBody, queryVariables).fetch_data()
     resultsByEvent = json_data['data']['getSingleCompetitorResultsDiscipline']['resultsByEvent']
     df = pd.DataFrame()
@@ -134,8 +137,8 @@ def getSingaporeAthletes():
 
 def main():
     getSingaporeAthletes()
-    df = getCompetitorResultsByDiscipline(AthleteID=14472153, resultsByYear=2022)
-    df.to_excel("test.xlsx", sheet_name="RAW", engine='openpyxl', index=False)
+    # df = getCompetitorResultsByDiscipline(AthleteID=14472153, resultsByYear=2022)
+    # df.to_excel("test.xlsx", sheet_name="RAW", engine='openpyxl', index=False)
 
 
 if __name__ == "__main__":
