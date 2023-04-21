@@ -21,10 +21,10 @@ Do not that API endpoint or API key may change in the future. Please update this
 
 <pre>
     <code>
-        {
-            "apiEndPoint": "https://jpvxtz2frzayfix6m7whizuccm.appsync-api.eu-west-1.amazonaws.com/graphql",
-            "apiKey": "da2-ii5irlhy7fd57aptsgby37bt3e"
-        }
+{
+    "apiEndPoint": "https://jpvxtz2frzayfix6m7whizuccm.appsync-api.eu-west-1.amazonaws.com/graphql",
+    "apiKey": "da2-ii5irlhy7fd57aptsgby37bt3e"
+}
     </code>
 </pre>
 <hr>
