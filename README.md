@@ -17,7 +17,7 @@ API Endpoint is:
 
 <pre><code>https://jpvxtz2frzayfix6m7whizuccm.appsync-api.eu-west-1.amazonaws.com/graphql</code></pre>
 
-Do not that API endpoint or API key may change in the future. Please update this in api.json.
+Do note that API endpoint or API key may change in the future. Please update this in api.json.
 
 <pre>
     <code>
@@ -30,3 +30,27 @@ Do not that API endpoint or API key may change in the future. Please update this
 <hr>
 
 ## **Changing Parameters**
+
+For changing parameters, this can be done in config.py.
+<br>
+
+To change countries to be scrapped, edit the following code block found in config.py:
+
+<pre><code>
+countries_list = [
+    "Singapore",
+    "Philippines",
+    "Malaysia",
+    "Vietnam",
+    "Indonesia",
+    "Thailand",
+    "Myanmar"
+]
+</pre></code>
+
+<br>
+Currently, the excel file name is generated dynamically using the time when the script is ran. To change the excel file name, edit the following line and ensure that it ends with (".xlsx") file format:
+
+<pre><code>
+filename = now + ".xlsx"
+</pre></code>

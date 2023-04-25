@@ -1,14 +1,17 @@
-filename = "test.xlsx"
+import time
+now = time.strftime("%H%M%S", time.localtime())
+
+filename = now + ".xlsx"
 
 # Define Countries to get results from
 countries_list = [
     "Singapore",
     "Philippines",
-    # "Malaysia",
-    # "Vietnam",
-    # "Indonesia",
-    # "Thailand",
-    # "Myanmar"
+    "Malaysia",
+    "Vietnam",
+    "Indonesia",
+    "Thailand",
+    "Myanmar"
 ]
 
 
