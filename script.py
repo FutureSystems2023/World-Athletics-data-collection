@@ -1,9 +1,9 @@
 import pandas as pd
 import requests as re
-import os
-import urllib.parse
+import config
 import json
 import sys
+import openpyxl
 
 
 class API:
@@ -45,22 +45,7 @@ class API:
 
 
 def searchCompetitor(query=None, gender=None, disciplineCode=None, environment=None, countryCode=None):
-    queryBody = """
-    query SearchCompetitors($query: String, $gender: GenderType, $disciplineCode: String, $environment: String, $countryCode: String) {
-        searchCompetitors(query: $query, gender: $gender, disciplineCode: $disciplineCode, environment: $environment, countryCode: $countryCode) {
-            aaAthleteId
-            familyName
-            givenName
-            birthDate
-            disciplines
-            iaafId
-            gender
-            country
-            urlSlug
-            __typename
-            }
-        }
-    """
+    queryBody = config.searchCompetitorQuery
     queryVariables = {
         "query": query,
         "gender": gender,
@@ -68,50 +53,15 @@ def searchCompetitor(query=None, gender=None, disciplineCode=None, environment=N
         "environment": environment,
         "countryCode": countryCode,
     }
-
     json_data = API(queryBody, queryVariables).fetch_data()
+    if json_data['data']['searchCompetitors'] == None:
+        print("Search not found for", query, countryCode, ".")
     df = pd.DataFrame.from_dict(json_data['data']['searchCompetitors'])
     return df
 
 
 def getCompetitorResultsByDiscipline(AthleteID=None, resultsByYearOrderBy=None, resultsByYear=None):
-    queryBody = """
-    query ($id: Int, $resultsByYearOrderBy: String, $resultsByYear: Int) {
-         getSingleCompetitorResultsDiscipline(id: $id, resultsByYear: $resultsByYear, resultsByYearOrderBy: $resultsByYearOrderBy) {    parameters {
-                   resultsByYear
-                   resultsByYearOrderBy
-                   __typename
-                   }
-                   activeYears
-                    resultsByEvent {
-                        indoor
-                        disciplineCode
-                        disciplineNameUrlSlug
-                        typeNameUrlSlug
-                        discipline
-                        withWind
-                        results {
-                            date
-                            competition
-                            venue
-                            country        
-                            category
-                            race        
-                            place        
-                            mark       
-                            wind     
-                            notLegal      
-                            resultScore      
-                            remark 
-                            __typename    
-                            }      
-                            __typename    
-                        }    
-                            __typename
-        }
-    }
-    """
-
+    queryBody = config.getCompetitorResultsByDiscipline
     queryVariables = {
         "id": AthleteID,
         "resultsByYearOrderBy": resultsByYearOrderBy,
@@ -146,6 +96,7 @@ def getCountryAthletesResults(countryCode="SGP", resultsYear=None):
             df_result = getCompetitorResultsByDiscipline(AthleteID=athleteID, resultsByYear=resultsYear)
             df_result['athlete_name'] = df_Athletes['givenName'][i]
             df_result['athlete_id'] = athleteID
+            df_result['athlete_countryCode'] = countryCode
             df = pd.concat([df, df_result])
             athleteActiveInYearCount += 1
         except:
@@ -161,6 +112,7 @@ def getCountryCode(countryName=""):
     for i in range(len(data['countryCodes'])):
         if data['countryCodes'][i]['name'].lower() == countryName.lower():
             return data['countryCodes'][i]['code']
+    print("Country Code not found. Check Country Name.")
     return "NOT FOUND"
 
 
@@ -170,6 +122,7 @@ def getDisciplineCode(disciplineName=""):
     for i in range(len(data['disciplineCodes'])):
         if data['disciplineCodes'][i]['name'].lower().strip() == disciplineName.lower().strip():
             return data['disciplineCodes'][i]['code']
+    print("Discipline Code not found. Check Discipline Name.")
     return "NOT FOUND"
 
 
@@ -182,9 +135,27 @@ def progressBar(count_value, total, suffix=''):
     sys.stdout.flush()
 
 
+def fetchResults():
+    try:
+        writer = pd.ExcelWriter(path=config.filename, engine='openpyxl')
+    except PermissionError:
+        print("Unable to write to {}. Please ensure file is closed before running the script.".format(config.filename))
+        return
+    except Exception as e:
+        print(e)
+        return
+    countries_list = config.countries_list
+    for country in countries_list:
+        df = getCountryAthletesResults(countryCode=getCountryCode(countryName=country))
+        df['athlete_country'] = country
+        df.to_excel(writer, sheet_name=country, index=False)
+    writer.close()
+    print("Results fetched successfully!")
+    return
+
+
 def main():
-    df = getCountryAthletesResults(countryCode=getCountryCode(countryName="askjdsand"))
-    df.to_excel("test.xlsx", sheet_name="RAW", engine='openpyxl', index=False)
+    fetchResults()
 
 
 if __name__ == "__main__":
