@@ -1,7 +1,8 @@
 import time
 now = time.strftime("%H%M%S", time.localtime())
 
-filename = now + ".xlsx"
+# filename = now + ".xlsx"
+filename = "test.xlsx"
 
 # Define Countries to get results from
 countries_list = [
@@ -12,6 +13,15 @@ countries_list = [
     "Indonesia",
     "Thailand",
     "Myanmar"
+]
+
+# Define which years to get results for
+years_list = [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
 ]
 
 

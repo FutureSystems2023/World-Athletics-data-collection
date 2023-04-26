@@ -136,6 +136,8 @@ def progressBar(count_value, total, suffix=''):
 
 
 def fetchResults():
+    print("Your arguments are: \nCountries=", config.countries_list, "\nYears=", config.years_list)
+
     try:
         writer = pd.ExcelWriter(path=config.filename, engine='openpyxl')
     except PermissionError:
@@ -144,9 +146,12 @@ def fetchResults():
     except Exception as e:
         print(e)
         return
+
     countries_list = config.countries_list
     for country in countries_list:
-        df = getCountryAthletesResults(countryCode=getCountryCode(countryName=country))
+        df = pd.DataFrame()
+        for year in config.years_list:
+            df = pd.concat([df, getCountryAthletesResults(countryCode=getCountryCode(countryName=country), resultsYear=year)])
         df['athlete_country'] = country
         df.to_excel(writer, sheet_name=country, index=False)
     writer.close()
@@ -154,8 +159,18 @@ def fetchResults():
     return
 
 
+def compileResults():
+    print("Compiling results into one sheet...")
+    df = pd.concat(pd.read_excel(config.filename, sheet_name=None))
+    writer = pd.ExcelWriter(path=config.filename, engine='openpyxl', mode='a')
+    df.to_excel(writer, sheet_name='ALL_COUNTRIES', index=None)
+    writer.close()
+    return
+
+
 def main():
     fetchResults()
+    compileResults()
 
 
 if __name__ == "__main__":
