@@ -168,9 +168,36 @@ def compileResults():
     return
 
 
+# This function is for cleaning timings (instances where there is a random h in the timings and remove any "DNQ" and other strings etc.)
+def cleanResults():
+    df = pd.read_excel(config.filename, sheet_name="ALL_COUNTRIES")
+    df['mark'] = df['mark'].str.replace('h', '0', regex=False)
+    df_strRemoved = df[(df['mark'].str.contains('\d', regex=True))]
+    df_strRemoved.to_csv("cleanedTest.csv", index=False)
+    df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
+    df_strRemoved.to_csv("cleanedTest2.csv", index=False)
+    return
+
+
+def convertStrToSeconds(x):
+    # HH:MM:SS or HH:MM:SS.ms
+    if x.count(":") == 2:
+        colonIndex_1st = x.find(":")
+        colonIndex_2nd = x.rfind(":")
+        seconds = float(x[0:colonIndex_1st]) * 3600 + float(x[colonIndex_1st + 1:colonIndex_2nd]) * 60 + float(x[colonIndex_2nd + 1:])
+    # MM:SS or MM:SS:ms
+    elif x.count(":") == 1:
+        colonIndex = x.find(":")
+        seconds = float(x[0:colonIndex]) * 60 + float(x[colonIndex + 1:])
+    else:
+        seconds = float(x)
+    return seconds
+
+
 def main():
-    fetchResults()
-    compileResults()
+    # fetchResults()
+    # compileResults()
+    cleanResults()
 
 
 if __name__ == "__main__":
