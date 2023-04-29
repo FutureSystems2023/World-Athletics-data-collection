@@ -31,7 +31,7 @@ Do note that API endpoint or API key may change in the future. Please update thi
 
 ## **Changing Parameters**
 
-For changing parameters, this can be done in config.py.
+For changing parameters, this can be done in config.py and using arguments when calling script.py (use -h switch for more details).
 <br>
 
 To change countries to be scrapped, edit the following code block found in config.py:

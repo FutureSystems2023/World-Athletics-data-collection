@@ -2,7 +2,7 @@ import pandas as pd
 import requests as re
 import config
 import json
-import sys
+import argparse
 import openpyxl
 
 
@@ -194,10 +194,50 @@ def convertStrToSeconds(x):
     return seconds
 
 
+def selectAthleteFromSearch(query="", discipline=""):
+    if discipline:
+        discipline = getDisciplineCode(disciplineName=discipline)
+    df_searchedResults = searchCompetitor(query=query, disciplineCode=discipline)
+    print("The API found the following athletes matching your query.")
+    print(df_searchedResults)
+    selection = input("Please input index of athlete to include in scrapping (enter all for selecting all athletes from search results):")
+    if selection.lower() != "all":
+        print("Selected", " ".join(df_searchedResults.iloc[int(selection)]
+              ['familyName'] + df_searchedResults.iloc[int(selection)]['givenName']))
+        selected_aaAthleteId = selection
+    else:
+        print("Selected all athletes from search results.")
+    return
+
+
+def parseScriptArguments():
+    description = "This is a python script to automate data collection and cleaning of World Athletics results retrieved from World Athletics website's backend API."
+    parser = argparse.ArgumentParser(description=description)
+    parser.add_argument("-ath", "--Athlete", help="Define Athlete for Search")
+    parser.add_argument("-disc", "--Discipline", help="Define Discipline for Search")
+    parser.add_argument("-o", "--OutputName", help="Define Output file name (without '.xlsx' extension)")
+    args = parser.parse_args()
+
+    global search_athleteName
+    global search_discipline
+    search_athleteName = ""
+    search_discipline = ""
+
+    if args.Athlete:
+        search_athleteName = args.Athlete
+        print("Athlete to search for: % s" % search_athleteName)
+
+    if args.Discipline:
+        search_discipline = args.Discipline
+
+    selectAthleteFromSearch(query=search_athleteName)
+
+
 def main():
     # fetchResults()
     # compileResults()
-    cleanResults()
+    # cleanResults()
+    parseScriptArguments()
 
 
 if __name__ == "__main__":
