@@ -2,7 +2,10 @@ import time
 now = time.strftime("%H%M%S", time.localtime())
 
 # filename = now + ".xlsx"
-filename = "scrappedRawResults.xlsx"
+scrappedRawFileName = "scrappedRawResults.xlsx"
+
+# filename = "finalFilteredCleanedResults_" + now + ".xlsx"
+finalFilteredCleanedFileName = "finalFilteredCleanedResults.xlsx"
 
 # Define Countries to get results from
 countries_list = [

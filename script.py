@@ -4,8 +4,8 @@ import config
 import json
 import argparse
 import sys
-import openpyxl
 import warnings
+import datetime as dt
 
 from pandas.core.common import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
@@ -144,9 +144,9 @@ def fetchResults():
     print("Your arguments are: \nCountries=", config.countries_list, "\nYears=", config.years_list)
 
     try:
-        writer = pd.ExcelWriter(path=config.filename, engine='openpyxl')
+        writer = pd.ExcelWriter(path=config.scrappedRawFileName, engine='openpyxl')
     except PermissionError:
-        print("Unable to write to {}. Please ensure file is closed before running the script.".format(config.filename))
+        print("Unable to write to {}. Please ensure file is closed before running the script.".format(config.scrappedRawFileName))
         return
     except Exception as e:
         print(e)
@@ -166,18 +166,18 @@ def fetchResults():
 
 def compileResults():
     print("Compiling results into one sheet...")
-    df = pd.concat(pd.read_excel(config.filename, sheet_name=None))
-    writer = pd.ExcelWriter(path=config.filename, engine='openpyxl', mode='a')
+    df = pd.concat(pd.read_excel(config.scrappedRawFileName, sheet_name=None))
+    writer = pd.ExcelWriter(path=config.scrappedRawFileName, engine='openpyxl', mode='a')
     df.to_excel(writer, sheet_name='ALL_COUNTRIES', index=None)
     writer.close()
     return
 
 
 # This function is for cleaning timings (instances where there is a random h in the timings and remove any "DNQ" and other strings etc.)
-def cleanResults(filename=config.filename, sheet_name="ALL_COUNTRIES"):
+def cleanResults(filename=config.scrappedRawFileName, sheet_name="ALL_COUNTRIES"):
     print("Commencing data cleaning operations for {0}...".format(filename))
     try:
-        if filename == config.filename:
+        if filename == config.scrappedRawFileName:
             df = pd.read_excel(filename, sheet_name=sheet_name, engine="openpyxl")
         else:
             df = pd.read_csv(filename)
@@ -264,13 +264,33 @@ def filterCleanedResultsByDiscipline():
         selected_discipline = df_uniqueDisciplines["Disciplines"][selected_index]
         print("Selected discipline ({}) for filtering of results".format(df_uniqueDisciplines["Disciplines"][selected_index]))
         df_filtered = df[df["discipline"] == selected_discipline]
-        df_filtered.to_csv("filteredCleanedResults.csv", index=False)
-        print("Filtering operations finished successfully (before rows: {0}, rows left: {1}). Results is saved as filteredCleanedResults.csv".format(
-            len(df), len(df_filtered)))
+        print("Filtering operations finished successfully (before rows: {0}, rows left: {1}).".format(len(df), len(df_filtered)))
+        generateFinalFilteredXlsx(df_filtered)
+        return
     except Exception as e:
         print(e)
         return
-    return
+
+
+def generateFinalFilteredXlsx(df):
+    print("Generating final filtered and cleaned results excel file...")
+    try:
+        writer = pd.ExcelWriter(path=config.finalFilteredCleanedFileName, engine='openpyxl')
+        df['date'] = pd.to_datetime(df['date'], errors='coerce')
+        df_2019to2023 = df
+        df_2022to2023 = df[(df["date"].dt.year == 2022) | (df["date"].dt.year == 2023)]
+        df_2023 = df[(df["date"].dt.year == 2023)]
+        df_2019to2023.to_excel(writer, sheet_name="Competitors 2019-2023", index=False)
+        df_2022to2023.to_excel(writer, sheet_name="Competitors 2022-2023", index=False)
+        df_2023.to_excel(writer, sheet_name="Competitors 2023", index=False)
+        writer.close()
+        print("Final filtered and cleaned results compiled successfully. Saved as {0}.".format(config.finalFilteredCleanedFileName))
+    except PermissionError:
+        print("Unable to write to {}. Please ensure file is closed before running the script.".format(config.scrappedRawFileName))
+        return
+    except Exception as e:
+        print(e)
+        return
 
 
 def parseScriptArguments():
@@ -299,7 +319,7 @@ def parseScriptArguments():
     else:
         # fetchResults()
         # compileResults()
-        cleanResults()
+        # cleanResults()
         filterCleanedResultsByDiscipline()
 
     return
