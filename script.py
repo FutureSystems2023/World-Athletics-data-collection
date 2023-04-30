@@ -3,6 +3,7 @@ import requests as re
 import config
 import json
 import argparse
+import sys
 import openpyxl
 
 
@@ -169,13 +170,20 @@ def compileResults():
 
 
 # This function is for cleaning timings (instances where there is a random h in the timings and remove any "DNQ" and other strings etc.)
-def cleanResults():
-    df = pd.read_excel(config.filename, sheet_name="ALL_COUNTRIES")
-    df['mark'] = df['mark'].str.replace('h', '0', regex=False)
-    df_strRemoved = df[(df['mark'].str.contains('\d', regex=True))]
-    df_strRemoved.to_csv("cleanedTest.csv", index=False)
-    df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
-    df_strRemoved.to_csv("cleanedTest2.csv", index=False)
+def cleanResults(filename=config.filename, sheet_name="ALL_COUNTRIES"):
+    print("Commencing data cleaning operations...")
+    try:
+        if filename == config.filename:
+            df = pd.read_excel(filename, sheet_name=sheet_name, engine="openpyxl")
+        else:
+            df = pd.read_csv(filename)
+        print("Attempting to remove non-numeric results (e.g. DNF, DQ, etc.) and converting results to seconds...")
+        df['mark'] = df['mark'].str.replace('h', '0', regex=False)
+        df_strRemoved = df[(df['mark'].str.contains('\d', regex=True))]
+        df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
+        df_strRemoved.to_csv("cleanedResults.csv", index=False)
+    except Exception as e:
+        print(e)
     return
 
 
@@ -194,19 +202,49 @@ def convertStrToSeconds(x):
     return seconds
 
 
-def selectAthleteFromSearch(query="", discipline=""):
+def getResultsOfSelectedAthleteFromSearch(query="", discipline=""):
+    df = pd.DataFrame()
     if discipline:
         discipline = getDisciplineCode(disciplineName=discipline)
     df_searchedResults = searchCompetitor(query=query, disciplineCode=discipline)
     print("The API found the following athletes matching your query.")
-    print(df_searchedResults)
+    print(df_searchedResults[["aaAthleteId", "givenName", "familyName", "country"]])
     selection = input("Please input index of athlete to include in scrapping (enter all for selecting all athletes from search results):")
-    if selection.lower() != "all":
-        print("Selected", " ".join(df_searchedResults.iloc[int(selection)]
-              ['familyName'] + df_searchedResults.iloc[int(selection)]['givenName']))
-        selected_aaAthleteId = selection
+    if selection.lower() != "all" and selection.isnumeric() == True:
+        selected_index = int(selection)
+        selected_aaAthleteId = df_searchedResults.iloc[selected_index]['aaAthleteId']
+        print(" ".join(["Selected:", df_searchedResults.iloc[selected_index]
+              ['givenName'], df_searchedResults.iloc[selected_index]['familyName'] + ".", "Commencing API Fetch..."]))
+        for year in config.years_list:
+            try:
+                df_result = getCompetitorResultsByDiscipline(AthleteID=selected_aaAthleteId, resultsByYear=year)
+                df_result['athlete_name'] = " ".join(
+                    [df_searchedResults['givenName'][selected_index], df_searchedResults['familyName'][selected_index]])
+                df_result['athlete_id'] = selected_aaAthleteId
+                df_result['athlete_countryCode'] = df_searchedResults['country'][selected_index]
+                df = pd.concat([df, df_result])
+            except:
+                print(" ".join(["Results for", df_searchedResults['givenName']
+                      [selected_index], "(" + selected_aaAthleteId + "):", df_result]))
+        print(df)
     else:
         print("Selected all athletes from search results.")
+        for i, athleteID in df_searchedResults['aaAthleteId'].items():
+            for year in config.years_list:
+                try:
+                    df_result = getCompetitorResultsByDiscipline(AthleteID=athleteID, resultsByYear=year)
+                    df_result['athlete_name'] = " ".join([df_searchedResults['givenName'][i], df_searchedResults['familyName'][i]])
+                    df_result['athlete_id'] = selected_aaAthleteId
+                    df_result['athlete_countryCode'] = df_searchedResults['country'][i]
+                    df = pd.concat([df, df_result])
+                except:
+                    print(" ".join(["Results for", df_searchedResults['givenName'][i], "(" + athleteID + "):", df_result]))
+        print(df)
+    try:
+        df.to_csv("searchResults.csv", index=False)
+        print("Saved results to searchResults.csv")
+    except Exception as e:
+        print(e)
     return
 
 
@@ -223,14 +261,18 @@ def parseScriptArguments():
     search_athleteName = ""
     search_discipline = ""
 
-    if args.Athlete:
+    if args.Athlete or args.Discipline:
         search_athleteName = args.Athlete
-        print("Athlete to search for: % s" % search_athleteName)
-
-    if args.Discipline:
         search_discipline = args.Discipline
+        print("Athlete to search for: {0}. Discipline: {1}".format(search_athleteName, search_discipline))
+        getResultsOfSelectedAthleteFromSearch(query=search_athleteName, discipline=search_discipline)
+        cleanResults(filename="searchResults.csv", sheet_name="searchResults")
+    # else:
+        # fetchResults()
+        # compileResults()
+        # cleanResults()
 
-    selectAthleteFromSearch(query=search_athleteName)
+    return
 
 
 def main():
