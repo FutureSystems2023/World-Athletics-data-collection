@@ -10,6 +10,7 @@ import warnings
 from pandas.core.common import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
+
 class API:
 
     f = open('api.json')
@@ -252,12 +253,34 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline=""):
     return
 
 
+# List all unique disciplines in cleaned results and allow user to select disciplines
+def filterCleanedResultsByDiscipline():
+    print("Commencing filtering operations of cleanedResults.csv...")
+    df = pd.read_csv("cleanedResults.csv")
+    df_uniqueDisciplines = pd.DataFrame(df["discipline"].unique(), columns=["Disciplines"])
+    print(df_uniqueDisciplines)
+    try:
+        selected_index = int(input("Please select index of discipline for filtering:"))
+        selected_discipline = df_uniqueDisciplines["Disciplines"][selected_index]
+        print("Selected discipline ({}) for filtering of results".format(df_uniqueDisciplines["Disciplines"][selected_index]))
+        df_filtered = df[df["discipline"] == selected_discipline]
+        df_filtered.to_csv("filteredCleanedResults.csv", index=False)
+        print("Filtering operations finished successfully (before rows: {0}, rows left: {1}). Results is saved as filteredCleanedResults.csv".format(
+            len(df), len(df_filtered)))
+    except Exception as e:
+        print(e)
+        return
+    return
+
+
 def parseScriptArguments():
     description = "This is a python script to automate data collection and cleaning of World Athletics results retrieved from World Athletics website's backend API."
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("-ath", "--Athlete", help="Define Athlete for Search")
     parser.add_argument("-disc", "--Discipline", help="Define Discipline for Search")
-    parser.add_argument("-o", "--OutputName", help="Define Output file name (without '.xlsx' extension)")
+    parser.add_argument("-o", "--OutputName", help="Define Output file name of Scrapped Results (without '.xlsx' extension)")
+    parser.add_argument("-filteronly", "--FilterOnly", action='store_true',
+                        help="Filter existing cleanedResults.csv by discipline specified. Scrapping will not be performed prior.")
     args = parser.parse_args()
 
     global search_athleteName
@@ -271,18 +294,18 @@ def parseScriptArguments():
         print("Athlete to search for: {0}. Discipline: {1}".format(search_athleteName, search_discipline))
         getResultsOfSelectedAthleteFromSearch(query=search_athleteName, discipline=search_discipline)
         cleanResults(filename="searchResults.csv", sheet_name="searchResults")
-    # else:
+    elif args.FilterOnly:
+        filterCleanedResultsByDiscipline()
+    else:
         # fetchResults()
         # compileResults()
-        # cleanResults()
+        cleanResults()
+        filterCleanedResultsByDiscipline()
 
     return
 
 
 def main():
-    # fetchResults()
-    # compileResults()
-    # cleanResults()
     parseScriptArguments()
 
 

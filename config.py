@@ -2,7 +2,7 @@ import time
 now = time.strftime("%H%M%S", time.localtime())
 
 # filename = now + ".xlsx"
-filename = "scrapped_ouput.xlsx"
+filename = "scrappedRawResults.xlsx"
 
 # Define Countries to get results from
 countries_list = [
