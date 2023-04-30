@@ -5,7 +5,10 @@ import json
 import argparse
 import sys
 import openpyxl
+import warnings
 
+from pandas.core.common import SettingWithCopyWarning
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 class API:
 
@@ -171,7 +174,7 @@ def compileResults():
 
 # This function is for cleaning timings (instances where there is a random h in the timings and remove any "DNQ" and other strings etc.)
 def cleanResults(filename=config.filename, sheet_name="ALL_COUNTRIES"):
-    print("Commencing data cleaning operations...")
+    print("Commencing data cleaning operations for {0}...".format(filename))
     try:
         if filename == config.filename:
             df = pd.read_excel(filename, sheet_name=sheet_name, engine="openpyxl")
@@ -182,6 +185,7 @@ def cleanResults(filename=config.filename, sheet_name="ALL_COUNTRIES"):
         df_strRemoved = df[(df['mark'].str.contains('\d', regex=True))]
         df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
         df_strRemoved.to_csv("cleanedResults.csv", index=False)
+        print("Results cleaned successfully and saved as cleanedResults.csv")
     except Exception as e:
         print(e)
     return
