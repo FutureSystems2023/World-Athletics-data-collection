@@ -255,7 +255,7 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline=""):
 
 # List all unique disciplines in cleaned results and allow user to select disciplines
 def filterCleanedResultsByDiscipline():
-    print("Commencing filtering operations of cleanedResults.csv...")
+    print("Filtering results by discipline first...")
     df = pd.read_csv("cleanedResults.csv")
     df_uniqueDisciplines = pd.DataFrame(df["discipline"].unique(), columns=["Disciplines"])
     print(df_uniqueDisciplines)
@@ -264,9 +264,25 @@ def filterCleanedResultsByDiscipline():
         selected_discipline = df_uniqueDisciplines["Disciplines"][selected_index]
         print("Selected discipline ({}) for filtering of results".format(df_uniqueDisciplines["Disciplines"][selected_index]))
         df_filtered = df[df["discipline"] == selected_discipline]
-        print("Filtering operations finished successfully (before rows: {0}, rows left: {1}).".format(len(df), len(df_filtered)))
-        generateFinalFilteredXlsx(df_filtered)
+        print("Filtering operations by discipline finished successfully (before rows: {0}, rows left: {1}).".format(
+            len(df), len(df_filtered)))
+        return df_filtered
+    except Exception as e:
+        print(e)
         return
+
+
+# Filter cleaned results by namelist provided by namelist.csv (only run this def after running filterCleanedResultsByDiscipline())
+def filterCleanedResultsByNamelist(df):
+    print("Filtering results by names provided in {0} next...".format(config.namelistFileName))
+    try:
+        df_filtered = pd.DataFrame(columns=df.columns)
+        df_namelist = pd.read_csv(config.namelistFileName)
+        for i in range(len(df_namelist)):
+            df_filtered = pd.concat([df_filtered, df[df['athlete_name'] == df_namelist.iloc[i, 0]]])
+        print("Filtering operations by namelist finished successfully (before rows: {0}, rows left: {1}).".format(
+            len(df), len(df_filtered)))
+        return df_filtered
     except Exception as e:
         print(e)
         return
@@ -293,6 +309,13 @@ def generateFinalFilteredXlsx(df):
         return
 
 
+def filterResults():
+    print("Commencing filtering operations of cleanedResults.csv...")
+    df = filterCleanedResultsByDiscipline()
+    df = filterCleanedResultsByNamelist(df)
+    generateFinalFilteredXlsx(df)
+
+
 def parseScriptArguments():
     description = "This is a python script to automate data collection and cleaning of World Athletics results retrieved from World Athletics website's backend API."
     parser = argparse.ArgumentParser(description=description)
@@ -315,12 +338,12 @@ def parseScriptArguments():
         getResultsOfSelectedAthleteFromSearch(query=search_athleteName, discipline=search_discipline)
         cleanResults(filename="searchResults.csv", sheet_name="searchResults")
     elif args.FilterOnly:
-        filterCleanedResultsByDiscipline()
+        filterResults()
     else:
         # fetchResults()
         # compileResults()
         # cleanResults()
-        filterCleanedResultsByDiscipline()
+        filterResults()
 
     return
 

@@ -7,6 +7,9 @@ scrappedRawFileName = "scrappedRawResults.xlsx"
 # filename = "finalFilteredCleanedResults_" + now + ".xlsx"
 finalFilteredCleanedFileName = "finalFilteredCleanedResults.xlsx"
 
+# This file will be used For filtering names from scrapped cleaned data.
+namelistFileName = "namelist.csv"
+
 # Define Countries to get results from
 countries_list = [
     "Singapore",
