@@ -7,7 +7,7 @@ import sys
 import warnings
 import datetime as dt
 
-from pandas.core.common import SettingWithCopyWarning
+from pandas.errors import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 
