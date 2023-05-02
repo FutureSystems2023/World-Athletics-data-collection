@@ -1,7 +1,5 @@
 pandas
 openpyxl
 requests
-urllib
 datetime
-json
 argparse
