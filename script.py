@@ -9,6 +9,7 @@ import datetime as dt
 
 from pandas.errors import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
 class API:
