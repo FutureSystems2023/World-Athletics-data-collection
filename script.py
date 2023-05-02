@@ -340,9 +340,9 @@ def parseScriptArguments():
     elif args.FilterOnly:
         filterResults()
     else:
-        # fetchResults()
-        # compileResults()
-        # cleanResults()
+        fetchResults()
+        compileResults()
+        cleanResults()
         filterResults()
 
     return
