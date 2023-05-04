@@ -355,6 +355,7 @@ def parseScriptArguments():
     elif args.ScrapeOnly:
         fetchResults()
         compileResults()
+        cleanResults()
     else:
         fetchResults()
         compileResults()
