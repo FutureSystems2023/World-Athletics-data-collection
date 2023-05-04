@@ -175,19 +175,19 @@ def compileResults():
 
 
 # This function is for cleaning timings (instances where there is a random h in the timings and remove any "DNQ" and other strings etc.)
-def cleanResults(filename=config.scrappedRawFileName, sheet_name="ALL_COUNTRIES"):
-    print("Commencing data cleaning operations for {0}...".format(filename))
+def cleanResults(targetFileName=config.scrappedRawFileName, sheet_name="ALL_COUNTRIES", outputFileName="cleanedResults.csv"):
+    print("Commencing data cleaning operations for {0}...".format(targetFileName))
     try:
-        if filename == config.scrappedRawFileName:
-            df = pd.read_excel(filename, sheet_name=sheet_name, engine="openpyxl")
+        if targetFileName == config.scrappedRawFileName:
+            df = pd.read_excel(targetFileName, sheet_name=sheet_name, engine="openpyxl")
         else:
-            df = pd.read_csv(filename)
+            df = pd.read_csv(targetFileName)
         print("Attempting to remove non-numeric results (e.g. DNF, DQ, etc.) and converting results to seconds...")
         df['mark'] = df['mark'].str.replace('h', '0', regex=False)
         df_strRemoved = df[(df['mark'].str.contains('\d', regex=True))]
         df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
-        df_strRemoved.to_csv("cleanedResults.csv", index=False)
-        print("Results cleaned successfully and saved as cleanedResults.csv")
+        df_strRemoved.to_csv(outputFileName, index=False)
+        print("Results cleaned successfully and saved as", outputFileName)
     except Exception as e:
         print(e)
     return
@@ -260,9 +260,9 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline=""):
 
 
 # List all unique disciplines in cleaned results and allow user to select disciplines
-def filterCleanedResultsByDiscipline():
+def filterCleanedResultsByDiscipline(targetFileName):
     print("Filtering results by discipline first...")
-    df = pd.read_csv("cleanedResults.csv")
+    df = pd.read_csv(targetFileName)
     df_uniqueDisciplines = pd.DataFrame(df["discipline"].unique(), columns=["Disciplines"])
     print(df_uniqueDisciplines)
     try:
@@ -315,9 +315,9 @@ def generateFinalFilteredXlsx(df):
         return
 
 
-def filterResults():
+def filterResults(targetFileName="cleanedResults.csv"):
     print("Commencing filtering operations of cleanedResults.csv...")
-    df = filterCleanedResultsByDiscipline()
+    df = filterCleanedResultsByDiscipline(targetFileName=targetFileName)
     df = filterCleanedResultsByNamelist(df)
     generateFinalFilteredXlsx(df)
 
@@ -328,8 +328,12 @@ def parseScriptArguments():
     parser.add_argument("-ath", "--Athlete", help="Define Athlete for Search")
     parser.add_argument("-disc", "--Discipline", help="Define Discipline for Search")
     parser.add_argument("-o", "--OutputName", help="Define Output file name of Scrapped Results (without '.xlsx' extension)")
+    parser.add_argument("-tf", "--TargetFileName",
+                        help="Target File Name (default is cleanedResults.csv) for performing filtering operations on using namelist.csv and discipline supplied")
     parser.add_argument("-filteronly", "--FilterOnly", action='store_true',
                         help="Filter existing cleanedResults.csv by discipline specified. Scrapping will not be performed prior.")
+    parser.add_argument("-scrapeonly", "--ScrapeOnly", action='store_true',
+                        help="Scape only. Will not perform filtering by discipline or namelist.csv.")
     args = parser.parse_args()
 
     global search_athleteName
@@ -342,9 +346,15 @@ def parseScriptArguments():
         search_discipline = args.Discipline
         print("Athlete to search for: {0}. Discipline: {1}".format(search_athleteName, search_discipline))
         getResultsOfSelectedAthleteFromSearch(query=search_athleteName, discipline=search_discipline)
-        cleanResults(filename="searchResults.csv", sheet_name="searchResults")
+        cleanResults(targetFileName="searchResults.csv", sheet_name="searchResults", outputFileName="searchResultsCleaned.csv")
     elif args.FilterOnly:
-        filterResults()
+        if args.TargetFileName:
+            filterResults(targetFileName=args.TargetFileName)
+        else:
+            filterResults()
+    elif args.ScrapeOnly:
+        fetchResults()
+        compileResults()
     else:
         fetchResults()
         compileResults()
