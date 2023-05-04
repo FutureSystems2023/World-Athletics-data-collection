@@ -333,7 +333,7 @@ def parseScriptArguments():
     parser.add_argument("-filteronly", "--FilterOnly", action='store_true',
                         help="Filter existing cleanedResults.csv by discipline specified. Scrapping will not be performed prior.")
     parser.add_argument("-scrapeonly", "--ScrapeOnly", action='store_true',
-                        help="Scape only. Will not perform filtering by discipline or namelist.csv.")
+                        help="Scape and clean data only. Will not perform filtering by discipline or namelist.csv.")
     args = parser.parse_args()
 
     global search_athleteName
