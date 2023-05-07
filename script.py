@@ -6,6 +6,8 @@ import argparse
 import sys
 import warnings
 import datetime as dt
+import shutil
+import os
 
 from pandas.errors import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
@@ -280,11 +282,11 @@ def filterCleanedResultsByDiscipline(targetFileName):
 
 
 # Filter cleaned results by namelist provided by namelist.csv (only run this def after running filterCleanedResultsByDiscipline())
-def filterCleanedResultsByNamelist(df):
+def filterCleanedResultsByNamelist(df, namelistCSV):
     print("Filtering results by names provided in {0} next...".format(config.namelistFileName))
     try:
         df_filtered = pd.DataFrame(columns=df.columns)
-        df_namelist = pd.read_csv(config.namelistFileName)
+        df_namelist = pd.read_csv(namelistCSV)
         for i in range(len(df_namelist)):
             df_filtered = pd.concat([df_filtered, df[df['athlete_name'] == df_namelist.iloc[i, 0]]])
         print("Filtering operations by namelist finished successfully (before rows: {0}, rows left: {1}).".format(
@@ -316,11 +318,19 @@ def generateFinalFilteredXlsx(df):
         return
 
 
-def filterResults(targetFileName="cleanedResults.csv"):
+def filterResults(targetFileName="cleanedResults.csv", namelistCSV=config.namelistFileName):
     print("Commencing filtering operations of cleanedResults.csv...")
     df = filterCleanedResultsByDiscipline(targetFileName=targetFileName)
-    df = filterCleanedResultsByNamelist(df)
+    df = filterCleanedResultsByNamelist(df, namelistCSV=namelistCSV)
     generateFinalFilteredXlsx(df)
+    
+    
+def compileIntoFolder(folderName=config.compiledFolderName, namelistCSV=config.namelistFileName):
+    print("Compiling output to folder '{0}'...".format(folderName))
+    if not os.path.exists(os.path.join(os.getcwd(), folderName)): os.mkdir(os.path.join(os.getcwd(), folderName)) 
+    shutil.move(os.path.join(os.getcwd(), namelistCSV), os.path.join(os.getcwd(), folderName, namelistCSV))
+    shutil.move(os.path.join(os.getcwd(), config.finalFilteredCleanedFileName), os.path.join(os.getcwd(), folderName, config.finalFilteredCleanedFileName))
+    return
 
 
 def parseScriptArguments():
@@ -330,7 +340,11 @@ def parseScriptArguments():
     parser.add_argument("-disc", "--Discipline", help="Define Discipline for Search")
     parser.add_argument("-o", "--OutputName", help="Define Output file name of Scrapped Results (without '.xlsx' extension)")
     parser.add_argument("-tf", "--TargetFileName",
-                        help="Target File Name (default is cleanedResults.csv) for performing filtering operations on using namelist.csv and discipline supplied")
+                        help="Target File Name (default is cleanedResults.csv) for performing filtering operations on using namelist.csv and discipline supplied. Please include '.csv' extension in argument.")
+    parser.add_argument("-nl", "--NameListCSV",
+                        help="Name List CSV file (default is namelist.csv) that will be used for performing filtering operations on cleaned results data. Please include '.csv' extension in argument and ensure '* namelist.csv' naming convention.")
+    parser.add_argument("-c", "--CompileIntoFolder", action='store_true',
+                        help="Compile filtered namelist CSV and filtered data into a folder specified by user. Please ensure argument is a legal folder name.")
     parser.add_argument("-filteronly", "--FilterOnly", action='store_true',
                         help="Filter existing cleanedResults.csv by discipline specified. Scrapping will not be performed prior.")
     parser.add_argument("-scrapeonly", "--ScrapeOnly", action='store_true',
@@ -350,9 +364,23 @@ def parseScriptArguments():
         cleanResults(targetFileName="searchResults.csv", sheet_name="searchResults", outputFileName="searchResultsCleaned.csv")
     elif args.FilterOnly:
         if args.TargetFileName:
-            filterResults(targetFileName=args.TargetFileName)
+            if args.NameListCSV:
+                filterResults(targetFileName=args.TargetFileName, namelistCSV=args.NameListCSV)
+            else:
+                if os.path.isfile(args.TargetFileName[:-4] + " namelist.csv"):
+                    filterResults(targetFileName=args.TargetFileName)
+                else:
+                    filterResults(targetFileName=args.TargetFileName, namelistCSV=args.TargetFileName[:-4] + " namelist.csv")
         else:
-            filterResults()
+            if args.NameListCSV:
+                filterResults(namelistCSV=args.NameListCSV)
+            else:
+                filterResults()
+        if args.CompileIntoFolder:
+            if args.NameListCSV and args.NameListCSV[len(args.NameListCSV)-12:] == "namelist.csv":
+                compileIntoFolder(folderName=args.NameListCSV[:-13], namelistCSV=args.NameListCSV)
+            else:
+                compileIntoFolder()
     elif args.ScrapeOnly:
         fetchResults()
         compileResults()
@@ -362,13 +390,18 @@ def parseScriptArguments():
         compileResults()
         cleanResults()
         filterResults()
+        if args.CompileIntoFolder:
+            if args.NameListCSV and args.NameListCSV[:-12] == "namelist.csv":
+                compileIntoFolder(folderName=args.NameListCSV[:-13], namelistCSV=args.NameListCSV)
+            else:
+                compileIntoFolder()
 
     return
 
 
 def main():
     parseScriptArguments()
-
+    print("Script ran successfully.")
 
 if __name__ == "__main__":
     main()

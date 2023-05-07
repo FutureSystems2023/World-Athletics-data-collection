@@ -10,6 +10,9 @@ finalFilteredCleanedFileName = "finalFilteredCleanedResults.xlsx"
 # This file will be used For filtering names from scrapped cleaned data.
 namelistFileName = "namelist.csv"
 
+# This is where all files will be compiled to if compiled switch was provided as CLI argument.
+compiledFolderName = "Filtered"
+
 # Define Countries to get results from
 countries_list = [
     "Singapore",
