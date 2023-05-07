@@ -18,7 +18,11 @@ countries_list = [
     "Vietnam",
     "Indonesia",
     "Thailand",
-    "Myanmar"
+    "Myanmar",
+    "Cambodia",
+    "Laos",
+    "Brunei",
+    "Timor Leste",
 ]
 
 # Define which years to get results for

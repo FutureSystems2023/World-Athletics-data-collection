@@ -97,6 +97,7 @@ def getCountryAthletesResults(countryCode="SGP", resultsYear=None):
     athletesCount = len(df_Athletes)
     print("API fetched", athletesCount, "athletes for", countryCode)
     athleteActiveInYearCount = 0
+    if athletesCount == 0: return df
     for i, athleteID in df_Athletes['aaAthleteId'].items():
         try:
             df_result = getCompetitorResultsByDiscipline(AthleteID=athleteID, resultsByYear=resultsYear)
