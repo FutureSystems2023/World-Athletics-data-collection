@@ -198,6 +198,13 @@ def compileResults():
     return
 
 
+def sortResultsMarkFromSmallestToLargest(resultsFileName):
+    df = pd.read_csv(resultsFileName)
+    df.sort_values(['athlete_name', 'mark', 'discipline'], ascending=[True, True, True], inplace=True)
+    df.to_csv(resultsFileName, index=False)
+    return
+
+
 # This function is for cleaning timings (instances where there is a random h in the timings and remove any "DNQ" and other strings etc.)
 def cleanResults(targetFileName=config.scrappedRawFileName, sheet_name="ALL_COUNTRIES", outputFileName="cleanedResults.csv"):
     print("Commencing data cleaning operations for {0}...".format(targetFileName))
@@ -214,6 +221,7 @@ def cleanResults(targetFileName=config.scrappedRawFileName, sheet_name="ALL_COUN
             df_strRemoved.to_csv(outputFileName, index=False)
         else:
             df.to_csv(outputFileName, index=False)
+        sortResultsMarkFromSmallestToLargest(resultsFileName=outputFileName)
         print("Results cleaned successfully and saved as", outputFileName)
     except Exception as e:
         print(e)
@@ -241,7 +249,7 @@ def convertStrToSeconds(x):
     return seconds
 
 
-def getResultsOfSelectedAthleteFromSearch(query="", discipline=""):
+def getResultsOfSelectedAthleteFromSearch(query="", discipline="", toCSV=True):
     df = pd.DataFrame()
     if discipline:
         discipline = getDisciplineCode(disciplineName=discipline)
@@ -281,11 +289,14 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline=""):
                 except:
                     print(" ".join(["Results for", df_searchedResults['givenName'][i], "(" + athleteID + "):", df_result]))
         print(df)
-    try:
-        df.to_csv("searchResults.csv", index=False)
-        print("Saved results to searchResults.csv")
-    except Exception as e:
-        print(e)
+    if toCSV:
+        try:
+            df.to_csv("searchResults.csv", index=False)
+            print("Saved results to searchResults.csv")
+        except Exception as e:
+            print(e)
+    else:
+        return df
     return
 
 
@@ -371,6 +382,30 @@ def appendSeachResultsToCleanedResultsCSV():
     return
 
 
+def searchProcess(**kwargs):
+    if kwargs['athlete'] or kwargs['discipline']:
+        search_athleteName = kwargs['athlete']
+        search_discipline = kwargs['discipline']
+        print("Athlete to search for: {0}. Discipline: {1}".format(search_athleteName, search_discipline))
+        getResultsOfSelectedAthleteFromSearch(query=search_athleteName, discipline=search_discipline)
+        cleanResults(targetFileName="searchResults.csv", sheet_name="searchResults", outputFileName="searchResultsCleaned.csv")
+        if kwargs['append']:
+            appendSeachResultsToCleanedResultsCSV()
+    elif kwargs['athleteCSV']:
+        try:
+            df_athleteCSV = pd.read_csv(kwargs['athleteCSV'])
+            df_search = pd.DataFrame()
+            for i, search_athleteName in enumerate(df_athleteCSV.iloc[:, 0]):
+                print("Searching {0} of {1} athletes specified. Search term: {2}".format(i, len(df_athleteCSV), search_athleteName))
+                df_search = pd.concat([df_search, getResultsOfSelectedAthleteFromSearch(query=search_athleteName, toCSV=False)])
+            df_search.to_csv("searchResults.csv", index=False)
+            cleanResults(targetFileName="searchResults.csv", sheet_name="searchResults", outputFileName="searchResultsCleaned.csv")
+        except Exception as e:
+            print(e)
+            exit()
+    return
+
+
 def parseScriptArguments():
     description = "This is a python script to automate data collection and cleaning of World Athletics results retrieved from World Athletics website's backend API."
     parser = argparse.ArgumentParser(description=description)
@@ -391,6 +426,7 @@ def parseScriptArguments():
                         help="Search athlete using API and return results as searchResults.csv.")
     parser.add_argument("-append", "--AppendToCleanedResults", action='store_true',
                         help="Append search results to cleanedResults.csv.")
+    parser.add_argument("-athCSV", "--AthleteCSV", help="Define Athlete CSV file for searches.")
     args = parser.parse_args()
 
     global search_athleteName
@@ -399,14 +435,7 @@ def parseScriptArguments():
     search_discipline = ""
 
     if args.SearchAthlete:
-        if args.Athlete or args.Discipline:
-            search_athleteName = args.Athlete
-            search_discipline = args.Discipline
-            print("Athlete to search for: {0}. Discipline: {1}".format(search_athleteName, search_discipline))
-            getResultsOfSelectedAthleteFromSearch(query=search_athleteName, discipline=search_discipline)
-            cleanResults(targetFileName="searchResults.csv", sheet_name="searchResults", outputFileName="searchResultsCleaned.csv")
-            if args.AppendToCleanedResults:
-                appendSeachResultsToCleanedResultsCSV()
+        searchProcess(athlete=args.Athlete, discipline=args.Discipline, append=args.AppendToCleanedResults, athleteCSV=args.AthleteCSV)
     elif args.FilterOnly:
         if args.TargetFileName:
             if args.NameListCSV:
