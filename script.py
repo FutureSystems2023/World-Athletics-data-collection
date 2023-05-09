@@ -50,7 +50,7 @@ class API:
         else:
             print("Failed calling API!")
             print(res.text)
-            exit
+            exit()
 
 
 def searchCompetitor(query=None, gender=None, disciplineCode=None, environment=None, countryCode=None):
@@ -161,6 +161,7 @@ def progressBar(count_value, total, suffix=''):
     bar = '=' * filled_up_Length + '-' * (bar_length - filled_up_Length)
     sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percentage, '%', suffix))
     sys.stdout.flush()
+    return
 
 
 def fetchResults(countries_list=config.countries_list, years_list=config.years_list, disciplines_list=config.disciplines_list):
@@ -382,7 +383,7 @@ def appendSeachResultsToCleanedResultsCSV():
     return
 
 
-def searchProcess(**kwargs):
+def searchOperation(**kwargs):
     if kwargs['athlete'] or kwargs['discipline']:
         search_athleteName = kwargs['athlete']
         search_discipline = kwargs['discipline']
@@ -403,6 +404,53 @@ def searchProcess(**kwargs):
         except Exception as e:
             print(e)
             exit()
+    return
+
+
+def scrapeOnlyOperation(**kwargs):
+    if kwargs['discipline']:
+        fetchResults()
+        compileResults()
+        cleanResults()
+    else:
+        fetchResults()
+        compileResults()
+        cleanResults()
+    return
+
+
+def filterOnlyOperation(**kwargs):
+    if kwargs['targetFileName']:
+        if kwargs['namelistCSV']:
+            filterResults(targetFileName=kwargs['targetFileName'], namelistCSV=kwargs['namelistCSV'])
+        else:
+            if os.path.isfile(os.path.join(os.getcwd(), kwargs['targetFileName'][:-4] + " namelist.csv")):
+                filterResults(targetFileName=kwargs['targetFileName'], namelistCSV=kwargs['targetFileName'][:-4] + " namelist.csv")
+            else:
+                filterResults(targetFileName=kwargs['targetFileName'])
+    else:
+        if kwargs['namelistCSV']:
+            filterResults(namelistCSV=kwargs['namelistCSV'])
+        else:
+            filterResults()
+    if kwargs['compileIntoFolder']:
+        if kwargs['namelistCSV'] and kwargs['namelistCSV'][len(kwargs['namelistCSV'])-12:] == "namelist.csv":
+            compileIntoFolder(folderName=kwargs['namelistCSV'][:-13], namelistCSV=kwargs['namelistCSV'])
+        else:
+            compileIntoFolder()
+    return
+
+
+def normalOperation(**kwargs):
+    fetchResults()
+    compileResults()
+    cleanResults()
+    filterResults()
+    if kwargs['compileIntoFolder']:
+        if kwargs['namelistCSV'] and kwargs['namelistCSV'][:-12] == "namelist.csv":
+            compileIntoFolder(folderName=kwargs['namelistCSV'][:-13], namelistCSV=kwargs['namelistCSV'])
+        else:
+            compileIntoFolder()
     return
 
 
@@ -435,46 +483,13 @@ def parseScriptArguments():
     search_discipline = ""
 
     if args.SearchAthlete:
-        searchProcess(athlete=args.Athlete, discipline=args.Discipline, append=args.AppendToCleanedResults, athleteCSV=args.AthleteCSV)
+        searchOperation(athlete=args.Athlete, discipline=args.Discipline, append=args.AppendToCleanedResults, athleteCSV=args.AthleteCSV)
     elif args.FilterOnly:
-        if args.TargetFileName:
-            if args.NameListCSV:
-                filterResults(targetFileName=args.TargetFileName, namelistCSV=args.NameListCSV)
-            else:
-                if os.path.isfile(os.path.join(os.getcwd(), args.TargetFileName[:-4] + " namelist.csv")):
-                    filterResults(targetFileName=args.TargetFileName, namelistCSV=args.TargetFileName[:-4] + " namelist.csv")
-                else:
-                    filterResults(targetFileName=args.TargetFileName)
-        else:
-            if args.NameListCSV:
-                filterResults(namelistCSV=args.NameListCSV)
-            else:
-                filterResults()
-        if args.CompileIntoFolder:
-            if args.NameListCSV and args.NameListCSV[len(args.NameListCSV)-12:] == "namelist.csv":
-                compileIntoFolder(folderName=args.NameListCSV[:-13], namelistCSV=args.NameListCSV)
-            else:
-                compileIntoFolder()
+        filterOnlyOperation(targetFileName=args.TargetFileName, namelistCSV=args.NameListCSV, compileIntoFolder=args.CompileIntoFolder)
     elif args.ScrapeOnly:
-        if args.Discipline:
-            fetchResults()
-            compileResults()
-            cleanResults()
-        else:
-            fetchResults()
-            compileResults()
-            cleanResults()
+        scrapeOnlyOperation(discipline=args.Discipline)
     else:
-        fetchResults()
-        compileResults()
-        cleanResults()
-        filterResults()
-        if args.CompileIntoFolder:
-            if args.NameListCSV and args.NameListCSV[:-12] == "namelist.csv":
-                compileIntoFolder(folderName=args.NameListCSV[:-13], namelistCSV=args.NameListCSV)
-            else:
-                compileIntoFolder()
-
+        normalOperation(compileIntoFolder=args.CompileIntoFolder, namelistCSV=args.NameListCSV)
     return
 
 
