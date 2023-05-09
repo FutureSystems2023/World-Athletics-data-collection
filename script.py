@@ -8,6 +8,7 @@ import warnings
 import datetime as dt
 import shutil
 import os
+import numpy as np
 
 from pandas.errors import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
@@ -89,21 +90,25 @@ def getCompetitorResultsByDiscipline(AthleteID=None, resultsByYearOrderBy=None, 
     return df
 
 
-def getCountryAthletesResults(countryCode="SGP", resultsYear=None):
+def getCountryAthletesResults(countryCode="SGP", resultsYear=None, disciplineCode=None):
     if countryCode == "NOT FOUND" or len(countryCode) != 3:
         return pd.DataFrame(["countryCode " + countryCode], )
     if resultsYear == None:
         resultsYear = 2023
     df = pd.DataFrame()
-    df_Athletes = searchCompetitor(countryCode=countryCode)
+    if disciplineCode != None:
+        df_Athletes = searchCompetitor(countryCode=countryCode, disciplineCode=disciplineCode)
+    else:
+        df_Athletes = searchCompetitor(countryCode=countryCode)
     athletesCount = len(df_Athletes)
     print("API fetched", athletesCount, "athletes for", countryCode)
     athleteActiveInYearCount = 0
-    if athletesCount == 0: return df
+    if athletesCount == 0:
+        return df
     for i, athleteID in df_Athletes['aaAthleteId'].items():
         try:
             df_result = getCompetitorResultsByDiscipline(AthleteID=athleteID, resultsByYear=resultsYear)
-            df_result['athlete_name'] = df_Athletes['givenName'][i]
+            df_result['athlete_name'] = " ".join([df_Athletes['givenName'][i], df_Athletes['familyName'][i]])
             df_result['athlete_id'] = athleteID
             df_result['athlete_countryCode'] = countryCode
             df = pd.concat([df, df_result])
@@ -135,17 +140,32 @@ def getDisciplineCode(disciplineName=""):
     return "NOT FOUND"
 
 
+def reverseCountryCoding(countryCode):
+    f = open('countryCodes.json')
+    data = json.load(f)
+    for i in range(len(data['countryCodes'])):
+        if data['countryCodes'][i]['code'].upper() == countryCode.upper():
+            return data['countryCodes'][i]['name']
+    print("Country Name not found. Check Country Name.")
+    return "NOT FOUND"
+
+
 def progressBar(count_value, total, suffix=''):
     bar_length = 100
-    filled_up_Length = int(round(bar_length * count_value / float(total)))
+    if total == 0:
+        filled_up_Length = 1
+        total = 1
+    else:
+        filled_up_Length = int(round(bar_length * count_value / float(total)))
     percentage = round(100.0 * count_value/float(total), 1)
     bar = '=' * filled_up_Length + '-' * (bar_length - filled_up_Length)
     sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percentage, '%', suffix))
     sys.stdout.flush()
 
 
-def fetchResults():
-    print("Your arguments are: \nCountries=", config.countries_list, "\nYears=", config.years_list)
+def fetchResults(countries_list=config.countries_list, years_list=config.years_list, disciplines_list=config.disciplines_list):
+    print("Your arguments are: \nCountries=", countries_list, "\nYears=",
+          years_list, "\nDisciplines=", disciplines_list)
 
     try:
         writer = pd.ExcelWriter(path=config.scrappedRawFileName, engine='openpyxl')
@@ -156,11 +176,12 @@ def fetchResults():
         print(e)
         return
 
-    countries_list = config.countries_list
     for country in countries_list:
         df = pd.DataFrame()
-        for year in config.years_list:
-            df = pd.concat([df, getCountryAthletesResults(countryCode=getCountryCode(countryName=country), resultsYear=year)])
+        for year in years_list:
+            for discipline in disciplines_list:
+                df = pd.concat([df, getCountryAthletesResults(countryCode=getCountryCode(
+                    countryName=country), resultsYear=year, disciplineCode=getDisciplineCode(discipline))])
         df['athlete_country'] = country
         df.to_excel(writer, sheet_name=country, index=False)
     writer.close()
@@ -186,13 +207,17 @@ def cleanResults(targetFileName=config.scrappedRawFileName, sheet_name="ALL_COUN
         else:
             df = pd.read_csv(targetFileName)
         print("Attempting to remove non-numeric results (e.g. DNF, DQ, etc.) and converting results to seconds...")
-        df['mark'] = df['mark'].str.replace('h', '0', regex=False)
-        df_strRemoved = df[(df['mark'].str.contains('\d', regex=True))]
-        df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
-        df_strRemoved.to_csv(outputFileName, index=False)
+        if df['mark'].dtype != np.float64:
+            df['mark'] = df['mark'].str.replace('h', '0', regex=False)
+            df_strRemoved = df[(df['mark'].str.contains('\d', regex=True))]
+            df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
+            df_strRemoved.to_csv(outputFileName, index=False)
+        else:
+            df.to_csv(outputFileName, index=False)
         print("Results cleaned successfully and saved as", outputFileName)
     except Exception as e:
         print(e)
+        exit()
     return
 
 
@@ -236,6 +261,7 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline=""):
                     [df_searchedResults['givenName'][selected_index], df_searchedResults['familyName'][selected_index]])
                 df_result['athlete_id'] = selected_aaAthleteId
                 df_result['athlete_countryCode'] = df_searchedResults['country'][selected_index]
+                df_result['athlete_country'] = reverseCountryCoding(countryCode=df_searchedResults['country'][selected_index])
                 df = pd.concat([df, df_result])
             except:
                 print(" ".join(["Results for", df_searchedResults['givenName']
@@ -250,6 +276,7 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline=""):
                     df_result['athlete_name'] = " ".join([df_searchedResults['givenName'][i], df_searchedResults['familyName'][i]])
                     df_result['athlete_id'] = selected_aaAthleteId
                     df_result['athlete_countryCode'] = df_searchedResults['country'][i]
+                    df_result['athlete_country'] = reverseCountryCoding(countryCode=df_searchedResults['country'][i])
                     df = pd.concat([df, df_result])
                 except:
                     print(" ".join(["Results for", df_searchedResults['givenName'][i], "(" + athleteID + "):", df_result]))
@@ -282,8 +309,8 @@ def filterCleanedResultsByDiscipline(targetFileName):
 
 
 # Filter cleaned results by namelist provided by namelist.csv (only run this def after running filterCleanedResultsByDiscipline())
-def filterCleanedResultsByNamelist(df, namelistCSV):
-    print("Filtering results by names provided in {0} next...".format(config.namelistFileName))
+def filterCleanedResultsByNamelist(df, namelistCSV=config.namelistFileName):
+    print("Filtering results by names provided in {0} next...".format(namelistCSV))
     try:
         df_filtered = pd.DataFrame(columns=df.columns)
         df_namelist = pd.read_csv(namelistCSV)
@@ -294,7 +321,7 @@ def filterCleanedResultsByNamelist(df, namelistCSV):
         return df_filtered
     except Exception as e:
         print(e)
-        return
+        exit()
 
 
 def generateFinalFilteredXlsx(df):
@@ -323,13 +350,24 @@ def filterResults(targetFileName="cleanedResults.csv", namelistCSV=config.nameli
     df = filterCleanedResultsByDiscipline(targetFileName=targetFileName)
     df = filterCleanedResultsByNamelist(df, namelistCSV=namelistCSV)
     generateFinalFilteredXlsx(df)
-    
-    
+
+
 def compileIntoFolder(folderName=config.compiledFolderName, namelistCSV=config.namelistFileName):
     print("Compiling output to folder '{0}'...".format(folderName))
-    if not os.path.exists(os.path.join(os.getcwd(), folderName)): os.mkdir(os.path.join(os.getcwd(), folderName)) 
+    if not os.path.exists(os.path.join(os.getcwd(), folderName)):
+        os.mkdir(os.path.join(os.getcwd(), folderName))
     shutil.move(os.path.join(os.getcwd(), namelistCSV), os.path.join(os.getcwd(), folderName, namelistCSV))
-    shutil.move(os.path.join(os.getcwd(), config.finalFilteredCleanedFileName), os.path.join(os.getcwd(), folderName, config.finalFilteredCleanedFileName))
+    shutil.move(os.path.join(os.getcwd(), config.finalFilteredCleanedFileName),
+                os.path.join(os.getcwd(), folderName, config.finalFilteredCleanedFileName))
+    return
+
+
+def appendSeachResultsToCleanedResultsCSV():
+    print("Appending seach results to cleanedResults.csv...")
+    df_cleanedResults = pd.read_csv("cleanedResults.csv")
+    df_searchResults = pd.read_csv("searchResultsCleaned.csv")
+    df = pd.concat([df_cleanedResults, df_searchResults])
+    df.to_csv("cleanedResults.csv", index=False)
     return
 
 
@@ -349,6 +387,10 @@ def parseScriptArguments():
                         help="Filter existing cleanedResults.csv by discipline specified. Scrapping will not be performed prior.")
     parser.add_argument("-scrapeonly", "--ScrapeOnly", action='store_true',
                         help="Scape and clean data only. Will not perform filtering by discipline or namelist.csv.")
+    parser.add_argument("-search", "--SearchAthlete", action='store_true',
+                        help="Search athlete using API and return results as searchResults.csv.")
+    parser.add_argument("-append", "--AppendToCleanedResults", action='store_true',
+                        help="Append search results to cleanedResults.csv.")
     args = parser.parse_args()
 
     global search_athleteName
@@ -356,21 +398,24 @@ def parseScriptArguments():
     search_athleteName = ""
     search_discipline = ""
 
-    if args.Athlete or args.Discipline:
-        search_athleteName = args.Athlete
-        search_discipline = args.Discipline
-        print("Athlete to search for: {0}. Discipline: {1}".format(search_athleteName, search_discipline))
-        getResultsOfSelectedAthleteFromSearch(query=search_athleteName, discipline=search_discipline)
-        cleanResults(targetFileName="searchResults.csv", sheet_name="searchResults", outputFileName="searchResultsCleaned.csv")
+    if args.SearchAthlete:
+        if args.Athlete or args.Discipline:
+            search_athleteName = args.Athlete
+            search_discipline = args.Discipline
+            print("Athlete to search for: {0}. Discipline: {1}".format(search_athleteName, search_discipline))
+            getResultsOfSelectedAthleteFromSearch(query=search_athleteName, discipline=search_discipline)
+            cleanResults(targetFileName="searchResults.csv", sheet_name="searchResults", outputFileName="searchResultsCleaned.csv")
+            if args.AppendToCleanedResults:
+                appendSeachResultsToCleanedResultsCSV()
     elif args.FilterOnly:
         if args.TargetFileName:
             if args.NameListCSV:
                 filterResults(targetFileName=args.TargetFileName, namelistCSV=args.NameListCSV)
             else:
-                if os.path.isfile(args.TargetFileName[:-4] + " namelist.csv"):
-                    filterResults(targetFileName=args.TargetFileName)
-                else:
+                if os.path.isfile(os.path.join(os.getcwd(), args.TargetFileName[:-4] + " namelist.csv")):
                     filterResults(targetFileName=args.TargetFileName, namelistCSV=args.TargetFileName[:-4] + " namelist.csv")
+                else:
+                    filterResults(targetFileName=args.TargetFileName)
         else:
             if args.NameListCSV:
                 filterResults(namelistCSV=args.NameListCSV)
@@ -382,9 +427,14 @@ def parseScriptArguments():
             else:
                 compileIntoFolder()
     elif args.ScrapeOnly:
-        fetchResults()
-        compileResults()
-        cleanResults()
+        if args.Discipline:
+            fetchResults()
+            compileResults()
+            cleanResults()
+        else:
+            fetchResults()
+            compileResults()
+            cleanResults()
     else:
         fetchResults()
         compileResults()
@@ -402,6 +452,7 @@ def parseScriptArguments():
 def main():
     parseScriptArguments()
     print("Script ran successfully.")
+
 
 if __name__ == "__main__":
     main()

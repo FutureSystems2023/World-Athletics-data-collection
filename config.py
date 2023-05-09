@@ -13,6 +13,14 @@ namelistFileName = "namelist.csv"
 # This is where all files will be compiled to if compiled switch was provided as CLI argument.
 compiledFolderName = "Filtered"
 
+# Define disciplines to scrape
+disciplines_list = [
+    "100 Metres",
+    "Pole Vault",
+    "200 Metres",
+    "1500 Metres"
+]
+
 # Define Countries to get results from
 countries_list = [
     "Singapore",
