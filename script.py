@@ -257,12 +257,13 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline="", toCSV=True):
     df_searchedResults = searchCompetitor(query=query, disciplineCode=discipline)
     print("The API found the following athletes matching your query.")
     print(df_searchedResults[["aaAthleteId", "givenName", "familyName", "country"]])
-    selection = input("Please input index of athlete to include in scrapping (enter all for selecting all athletes from search results):")
+    selection = input(
+        "Please input index of athlete to include in scrapping (enter all for selecting all athletes from search results or enter skip to skip the current search query):")
     if selection.lower() != "all" and selection.isnumeric() == True:
         selected_index = int(selection)
         selected_aaAthleteId = df_searchedResults.iloc[selected_index]['aaAthleteId']
         print(" ".join(["Selected:", df_searchedResults.iloc[selected_index]
-              ['givenName'], df_searchedResults.iloc[selected_index]['familyName'] + ".", "Commencing API Fetch..."]))
+              ['givenName'], df_searchedResults.iloc[selected_index]['familyName'], "(" + selected_aaAthleteId + ").", "Commencing API Fetch..."]))
         for year in config.years_list:
             try:
                 df_result = getCompetitorResultsByDiscipline(AthleteID=selected_aaAthleteId, resultsByYear=year)
@@ -276,6 +277,9 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline="", toCSV=True):
                 print(" ".join(["Results for", df_searchedResults['givenName']
                       [selected_index], "(" + selected_aaAthleteId + "):", df_result]))
         print(df)
+    elif selection.lower() == "skip":
+        print("Skipping this search query ({0})...".format(query))
+        return df
     else:
         print("Selected all athletes from search results.")
         for i, athleteID in df_searchedResults['aaAthleteId'].items():
