@@ -362,7 +362,7 @@ def generateFinalFilteredXlsx(df):
 
 
 def filterResults(targetFileName="cleanedResults.csv", namelistCSV=config.namelistFileName):
-    print("Commencing filtering operations of cleanedResults.csv...")
+    print("Commencing filtering operations of {0} using namelist ({1})...".format(targetFileName, namelistCSV))
     df = filterCleanedResultsByDiscipline(targetFileName=targetFileName)
     df = filterCleanedResultsByNamelist(df, namelistCSV=namelistCSV)
     generateFinalFilteredXlsx(df)
