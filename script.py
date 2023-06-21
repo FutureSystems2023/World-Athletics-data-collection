@@ -306,22 +306,28 @@ def getResultsOfSelectedAthleteFromSearch(query="", discipline="", toCSV=True):
 
 
 # List all unique disciplines in cleaned results and allow user to select disciplines
-def filterCleanedResultsByDiscipline(targetFileName):
+def filterCleanedResultsByDiscipline(targetFileName, filterDiscipline=None):
     print("Filtering results by discipline first...")
     df = pd.read_csv(targetFileName)
-    df_uniqueDisciplines = pd.DataFrame(df["discipline"].unique(), columns=["Disciplines"])
-    print(df_uniqueDisciplines)
-    try:
-        selected_index = int(input("Please select index of discipline for filtering:"))
-        selected_discipline = df_uniqueDisciplines["Disciplines"][selected_index]
-        print("Selected discipline ({}) for filtering of results".format(df_uniqueDisciplines["Disciplines"][selected_index]))
-        df_filtered = df[df["discipline"] == selected_discipline]
+    if filterDiscipline:
+        df_filtered = df[df["discipline"].isin(filterDiscipline)]
         print("Filtering operations by discipline finished successfully (before rows: {0}, rows left: {1}).".format(
             len(df), len(df_filtered)))
-        return df_filtered
-    except Exception as e:
-        print(e)
-        return
+    else:
+        df_uniqueDisciplines = pd.DataFrame(df["discipline"].unique(), columns=["Disciplines"])
+        print(df_uniqueDisciplines)
+        try:
+            selected_index = int(input("Please select index of discipline for filtering:"))
+            selected_discipline = df_uniqueDisciplines["Disciplines"][selected_index]
+            print("Selected discipline ({}) for filtering of results".format(df_uniqueDisciplines["Disciplines"][selected_index]))
+            df_filtered = df[df["discipline"] == selected_discipline]
+            print("Filtering operations by discipline finished successfully (before rows: {0}, rows left: {1}).".format(
+                len(df), len(df_filtered)))
+        except Exception as e:
+            print(e)
+            return
+        
+    return df_filtered
 
 
 # Filter cleaned results by namelist provided by namelist.csv (only run this def after running filterCleanedResultsByDiscipline())
@@ -361,9 +367,12 @@ def generateFinalFilteredXlsx(df):
         return
 
 
-def filterResults(targetFileName="cleanedResults.csv", namelistCSV=config.namelistFileName):
+def filterResults(targetFileName="cleanedResults.csv", namelistCSV=config.namelistFileName, filterDiscipline=None):
     print("Commencing filtering operations of {0} using namelist ({1})...".format(targetFileName, namelistCSV))
-    df = filterCleanedResultsByDiscipline(targetFileName=targetFileName)
+    if filterDiscipline:
+        df = filterCleanedResultsByDiscipline(targetFileName=targetFileName, filterDiscipline=filterDiscipline)
+    else:
+        df = filterCleanedResultsByDiscipline(targetFileName=targetFileName)
     df = filterCleanedResultsByNamelist(df, namelistCSV=namelistCSV)
     generateFinalFilteredXlsx(df)
 
@@ -449,7 +458,7 @@ def normalOperation(**kwargs):
     fetchResults()
     compileResults()
     cleanResults()
-    filterResults()
+    filterResults(filterDiscipline=config.disciplines_list)
     if kwargs['compileIntoFolder']:
         if kwargs['namelistCSV'] and kwargs['namelistCSV'][:-12] == "namelist.csv":
             compileIntoFolder(folderName=kwargs['namelistCSV'][:-13], namelistCSV=kwargs['namelistCSV'])

@@ -1,6 +1,7 @@
 *.xlsx
 *.csv
 *.json
+*.ipynb
 
 .vscode/*
 __pycache__

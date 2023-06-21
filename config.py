@@ -14,27 +14,10 @@ namelistFileName = "namelist.csv"
 compiledFolderName = "Filtered"
 
 # Define disciplines to scrape
-disciplines_list = [
-    "100 Metres",
-    "Pole Vault",
-    "200 Metres",
-    "1500 Metres"
-]
+disciplines_list = ["100 Metres", "Pole Vault", "200 Metres", "1500 Metres"]
 
 # Define Countries to get results from
-countries_list = [
-    "Singapore",
-    "Philippines",
-    "Malaysia",
-    "Vietnam",
-    "Indonesia",
-    "Thailand",
-    "Myanmar",
-    "Cambodia",
-    "Laos",
-    "Brunei",
-    "Timor Leste",
-]
+countries_list =["Singapore", "Philippines", "Malaysia", "Vietnam", "Indonesia", "Thailand", "Myanmar", "Cambodia", "Laos", "Brunei", "Timor Leste"]
 
 # Define which years to get results for
 years_list = [
@@ -68,12 +51,12 @@ query SearchCompetitors($query: String, $gender: GenderType, $disciplineCode: St
 # Define getCompetitorResultsByDiscipline GraphQL Query here
 getCompetitorResultsByDiscipline = """
     query ($id: Int, $resultsByYearOrderBy: String, $resultsByYear: Int) {
-         getSingleCompetitorResultsDiscipline(id: $id, resultsByYear: $resultsByYear, resultsByYearOrderBy: $resultsByYearOrderBy) {    parameters {
-                   resultsByYear
-                   resultsByYearOrderBy
-                   __typename
-                   }
-                   activeYears
+        getSingleCompetitorResultsDiscipline(id: $id, resultsByYear: $resultsByYear, resultsByYearOrderBy: $resultsByYearOrderBy) {    parameters {
+                resultsByYear
+                resultsByYearOrderBy
+                __typename
+                }
+                activeYears
                     resultsByEvent {
                         indoor
                         disciplineCode
