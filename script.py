@@ -69,7 +69,7 @@ def searchCompetitor(query=None, gender=None, disciplineCode=None, environment=N
     return df
 
 
-def getCompetitorResultsByDiscipline(AthleteID=None, resultsByYearOrderBy=None, resultsByYear=None):
+def getCompetitorResultsByDiscipline(AthleteID=None, resultsByYearOrderBy=None, resultsByYear=None, disciplineCode=None):
     queryBody = config.getCompetitorResultsByDiscipline
     queryVariables = {
         "id": AthleteID,
@@ -83,23 +83,32 @@ def getCompetitorResultsByDiscipline(AthleteID=None, resultsByYearOrderBy=None, 
     else:
         return "Not Found"
     df = pd.DataFrame()
-    for discipline in range(len(resultsByEvent)):
-        df_results = pd.DataFrame.from_dict(resultsByEvent[discipline]['results'])
-        df_results['discipline'] = resultsByEvent[discipline]['discipline']
-        df = pd.concat([df, df_results])
+    #Filter by disciplineCode (necessary when athlete has multiple disciplines, results scrapped will be duplicated)
+    if disciplineCode:
+        for disciplineIndex in range(len(resultsByEvent)):
+            if resultsByEvent[disciplineIndex]['disciplineCode'] == disciplineCode:
+                df_results = pd.DataFrame.from_dict(resultsByEvent[disciplineIndex]['results'])
+                df_results['discipline'] = resultsByEvent[disciplineIndex]['discipline']
+                df = pd.concat([df, df_results])
+                break
+    else:
+        for disciplineIndex in range(len(resultsByEvent)):
+            df_results = pd.DataFrame.from_dict(resultsByEvent[disciplineIndex]['results'])
+            df_results['discipline'] = resultsByEvent[disciplineIndex]['discipline']
+            df = pd.concat([df, df_results])
     return df
 
 
-def getCountryAthletesResults(countryCode="SGP", resultsYear=None, disciplineCode=None):
+def getCountryAthletesResults(countryCode="SGP", resultsYear=None, disciplineCode=None, gender=None):
     if countryCode == "NOT FOUND" or len(countryCode) != 3:
         return pd.DataFrame(["countryCode " + countryCode], )
     if resultsYear == None:
         resultsYear = 2023
     df = pd.DataFrame()
     if disciplineCode != None:
-        df_Athletes = searchCompetitor(countryCode=countryCode, disciplineCode=disciplineCode)
+        df_Athletes = searchCompetitor(countryCode=countryCode, disciplineCode=disciplineCode, gender=gender)
     else:
-        df_Athletes = searchCompetitor(countryCode=countryCode)
+        df_Athletes = searchCompetitor(countryCode=countryCode, gender=gender)
     athletesCount = len(df_Athletes)
     print("API fetched", athletesCount, "athletes for", countryCode)
     athleteActiveInYearCount = 0
@@ -107,7 +116,7 @@ def getCountryAthletesResults(countryCode="SGP", resultsYear=None, disciplineCod
         return df
     for i, athleteID in df_Athletes['aaAthleteId'].items():
         try:
-            df_result = getCompetitorResultsByDiscipline(AthleteID=athleteID, resultsByYear=resultsYear)
+            df_result = getCompetitorResultsByDiscipline(AthleteID=athleteID, resultsByYear=resultsYear, disciplineCode=disciplineCode)
             df_result['athlete_name'] = " ".join([df_Athletes['givenName'][i], df_Athletes['familyName'][i]])
             df_result['athlete_id'] = athleteID
             df_result['athlete_countryCode'] = countryCode
@@ -164,9 +173,9 @@ def progressBar(count_value, total, suffix=''):
     return
 
 
-def fetchResults(countries_list=config.countries_list, years_list=config.years_list, disciplines_list=config.disciplines_list):
+def fetchResults(countries_list=config.countries_list, years_list=config.years_list, disciplines_list=config.disciplines_list, gender=config.gender):
     print("Your arguments are: \nCountries=", countries_list, "\nYears=",
-          years_list, "\nDisciplines=", disciplines_list)
+          years_list, "\nDisciplines=", disciplines_list, "\nGender=", gender)
 
     try:
         writer = pd.ExcelWriter(path=config.scrappedRawFileName, engine='openpyxl')
@@ -182,7 +191,7 @@ def fetchResults(countries_list=config.countries_list, years_list=config.years_l
         for year in years_list:
             for discipline in disciplines_list:
                 df = pd.concat([df, getCountryAthletesResults(countryCode=getCountryCode(
-                    countryName=country), resultsYear=year, disciplineCode=getDisciplineCode(discipline))])
+                    countryName=country), resultsYear=year, disciplineCode=getDisciplineCode(discipline), gender=gender)])
         df['athlete_country'] = country
         df.to_excel(writer, sheet_name=country, index=False)
     writer.close()
@@ -216,8 +225,10 @@ def cleanResults(targetFileName=config.scrappedRawFileName, sheet_name="ALL_COUN
             df = pd.read_csv(targetFileName)
         print("Attempting to remove non-numeric results (e.g. DNF, DQ, etc.) and converting results to seconds...")
         if df['mark'].dtype != np.float64:
-            df['mark'] = df['mark'].str.replace('h', '0', regex=False)
-            df_strRemoved = df[(df['mark'].str.contains('\d', regex=True))]
+            #Replace dpts with 'h' to 0. Convert dpts to numeric, if error replace with NAN. Lastly, Convert dpts to seconds. 
+            df['mark'] = df['mark'].astype(str).str.replace('h', '0', regex=False)
+            df['mark'] = df['mark'].apply(lambda x: pd.to_numeric(x, errors='coerce'))
+            df_strRemoved = df[df['mark'].notna()]
             df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
             df_strRemoved.to_csv(outputFileName, index=False)
         else:
@@ -412,14 +423,16 @@ def searchOperation(**kwargs):
 
 
 def scrapeOnlyOperation(**kwargs):
+    '''
     if kwargs['discipline']:
         fetchResults()
         compileResults()
         cleanResults()
     else:
-        fetchResults()
-        compileResults()
-        cleanResults()
+    '''
+    fetchResults()
+    compileResults()
+    cleanResults()
     return
 
 
@@ -470,6 +483,8 @@ def parseScriptArguments():
                         help="Name List CSV file (default is namelist.csv) that will be used for performing filtering operations on cleaned results data. Please include '.csv' extension in argument and ensure '* namelist.csv' naming convention.")
     parser.add_argument("-c", "--CompileIntoFolder", action='store_true',
                         help="Compile filtered namelist CSV and filtered data into a folder specified by user. Please ensure argument is a legal folder name.")
+    parser.add_argument("-cleanonly", "--CleanOnly", action='store_true',
+                        help="Clean existing scrappedRawResults.xlsx and output into cleanedResults.csv.")
     parser.add_argument("-filteronly", "--FilterOnly", action='store_true',
                         help="Filter existing cleanedResults.csv by discipline specified. Scrapping will not be performed prior.")
     parser.add_argument("-scrapeonly", "--ScrapeOnly", action='store_true',
@@ -488,6 +503,8 @@ def parseScriptArguments():
 
     if args.SearchAthlete:
         searchOperation(athlete=args.Athlete, discipline=args.Discipline, append=args.AppendToCleanedResults, athleteCSV=args.AthleteCSV)
+    elif args.CleanOnly:
+        cleanResults()
     elif args.FilterOnly:
         filterOnlyOperation(targetFileName=args.TargetFileName, namelistCSV=args.NameListCSV, compileIntoFolder=args.CompileIntoFolder)
     elif args.ScrapeOnly:

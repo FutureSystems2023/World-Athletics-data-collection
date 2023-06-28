@@ -13,28 +13,58 @@ namelistFileName = "namelist.csv"
 # This is where all files will be compiled to if compiled switch was provided as CLI argument.
 compiledFolderName = "Filtered"
 
+# Define gender to scrape (female or male, leave blank to scrape both)
+gender = "female"
+
 # Define disciplines to scrape
 disciplines_list = [
-    "100 Metres",
-    "Pole Vault",
-    "200 Metres",
-    "1500 Metres"
+    "High Jump",
 ]
+'''
+disciplines_list = [
+    "100 Metres",
+    "200 Metres",
+    "400 Metres",
+    "800 Metres",
+    "100 Metres Hurdles",
+    "110 Metres Hurdles",
+    "400 Metres Hurdles",
+    "Pole Vault",
+    "High Jump"
+]
+'''
 
 # Define Countries to get results from
 countries_list = [
     "Singapore",
+    "Pr Of China",
+    "Hong Kong, China",
     "Philippines",
     "Malaysia",
     "Vietnam",
-    "Indonesia",
+    "Chinese Taipei",
     "Thailand",
+    "Korea",
+    "Kazakhstan",
+    "Japan",
+    "India",
+    "Uzbekistan",
+    "Indonesia",
+    "Bahrain",
+    "Qatar",
+    "Saudi Arabia",
+    "Pakistan",
+    "Islamic Republic Of Iran",
+    "Sri Lanka",
+    "Iraq",
+    "Tajikistan",
+    "Kirghizistan",
+    "Kuwait",
     "Myanmar",
-    "Cambodia",
-    "Laos",
-    "Brunei",
-    "Timor Leste",
+    "Oman",
+    "Syria"
 ]
+
 
 # Define which years to get results for
 years_list = [
