@@ -227,7 +227,7 @@ def cleanResults(targetFileName=config.scrappedRawFileName, sheet_name="ALL_COUN
         if df['mark'].dtype != np.float64:
             #Replace dpts with 'h' to 0. Convert dpts to numeric, if error replace with NAN. Lastly, Convert dpts to seconds. 
             df['mark'] = df['mark'].astype(str).str.replace('h', '0', regex=False)
-            df['mark'] = df['mark'].apply(lambda x: pd.to_numeric(x, errors='coerce'))
+            df['mark'] = df['mark'].apply(lambda x: pd.to_numeric(x, errors='coerce') if ":" not in x else x)
             df_strRemoved = df[df['mark'].notna()]
             df_strRemoved['mark'] = df_strRemoved['mark'].apply(lambda x: convertStrToSeconds(x))
             df_strRemoved.to_csv(outputFileName, index=False)
