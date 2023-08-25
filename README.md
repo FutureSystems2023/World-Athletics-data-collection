@@ -25,12 +25,75 @@ Do note that API endpoint or API key may change in the future. Please update thi
 <pre>
     <code>
 {
-    "apiEndPoint": "https://jpvxtz2frzayfix6m7whizuccm.appsync-api.eu-west-1.amazonaws.com/graphql",
-    "apiKey": "da2-ii5irlhy7fd57aptsgby37bt3e"
+    "apiEndPoint": "https://7ibx2qxfvnch7nyrsbqpj3kysq.appsync-api.eu-west-1.amazonaws.com/graphql",
+	"apiKey": "da2-em7tgrudife2faws5gvtuhxfxm"
 }
     </code>
 </pre>
 <hr>
+
+## **Running the script**
+In your preferred terminal and the working directory, run the following command
+
+<pre>
+    <code>
+    python script.py
+    </code>
+</pre>
+
+You can access the help text using the help switch ('-h' or '--help')
+
+<pre>
+    <code>
+    python script.py --help
+    </code>
+</pre>
+
+
+## **Script Modes**
+The script has a few modes of operation
+
+<ol>
+    <li>Normal Operation (by default)</li>
+    <ul>
+        <li>Runs scraping, cleaning and filtering of data. If no switch is in the argument, this mode will run by default.</li>
+        <pre>
+            <code>
+            python script.py
+            </code>
+        </pre>
+    </ul>
+    <li>Scrape Only</li>
+    <ul>
+        <li>Only runs scraping and cleaning of data</li>
+        <pre>
+            <code>
+            python script.py -scrapeonly
+            </code>
+        </pre>
+    </ul>
+    <li>Clean Only</li>
+    <ul>
+        <li>Only runs cleaning of data</li>
+        <pre>
+            <code>
+            python script.py -cleanonly
+            </code>
+        </pre>
+    </ul>
+    <li>Filter Only</li>
+    <ul>
+        <li>Only runs filtering of data</li>
+        <pre>
+            <code>
+            python script.py -filteronly
+            </code>
+        </pre>
+    </ul>
+</ol>
+
+<i>Please use the help switch to find out what is required for each mode.</i>
+
 
 ## **Scraping Operations**
 
@@ -65,7 +128,7 @@ User can also scrape by providing a name list of athletes that you would like to
 For changing parameters, this can be done in config.py and using arguments when calling script.py (use -h switch for more details).
 <br>
 
-To change countries to be scrapped, edit the following code block found in config.py:
+To change countries to be scraped, edit the following code block found in config.py:
 
 <pre><code>
 countries_list = [
@@ -77,11 +140,7 @@ countries_list = [
     "Thailand",
     "Myanmar"
 ]
-</pre></code>
+</code></pre>
 
 <br>
-Currently, the excel file name is generated dynamically using the time when the script is ran. To change the excel file name, edit the following line and ensure that it ends with (".xlsx") file format:
-
-<pre><code>
-filename = now + ".xlsx"
-</pre></code>
+For changing of file names please change them in config.py and refer to it for more information.
