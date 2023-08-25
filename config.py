@@ -18,7 +18,8 @@ gender = "female"
 
 # Define disciplines to scrape
 disciplines_list = [
-    "High Jump",
+    "100 Metres",
+    "200 Metres",
 ]
 '''
 disciplines_list = [
@@ -36,33 +37,51 @@ disciplines_list = [
 
 # Define Countries to get results from
 countries_list = [
-    "Singapore",
-    "Pr Of China",
-    "Hong Kong, China",
-    "Philippines",
-    "Malaysia",
-    "Vietnam",
-    "Chinese Taipei",
-    "Thailand",
-    "Korea",
-    "Kazakhstan",
-    "Japan",
-    "India",
-    "Uzbekistan",
-    "Indonesia",
+    "Afghanistan",
+    "Bangladesh",
+    "Bhutan",
     "Bahrain",
-    "Qatar",
-    "Saudi Arabia",
-    "Pakistan",
-    "Islamic Republic Of Iran",
-    "Sri Lanka",
+    "Brunei",
+    "Cambodia",
+    "Dpr Of Korea",
+    "Timor Leste",
+    "Hong Kong, China",
+    "Indonesia",
+    "India",
+    "Islamic Republic of Iran",
     "Iraq",
-    "Tajikistan",
+    "Jordan",
+    "Japan",
+    "Kazakhstan",
     "Kirghizistan",
+    "Pr Of China",
+    "Korea",
+    "Saudi Arabia",
     "Kuwait",
+    "Laos",
+    "Lebanon",
+    "Macao",
+    "Malaysia",
+    "Maldives",
+    "Mongolia",
     "Myanmar",
+    "Nepal",
     "Oman",
-    "Syria"
+    "Pakistan",
+    "Philippines",
+    "Palestine",
+    "Qatar",
+    "Singapore",
+    "Sri Lanka",
+    "Syria",
+    "Thailand",
+    "Tajikistan",
+    "Turkmenistan",
+    "Chinese Taipei",
+    "United Arab Emirates",
+    "Uzbekistan",
+    "Vietnam",
+    "Republic Of Yemen"
 ]
 
 
